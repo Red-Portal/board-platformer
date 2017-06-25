@@ -9,13 +9,11 @@ else()
 	set(CMAKE_CXX_FLAGS "-pthread -Wall -O3")
 endif()
 
-set(BOOST_INCLUDEDIR ~/libraries/boost)
-
 # example project source directories
-set(EXAMPLES ${PROJECT_SOURCE_DIR}/examples)
+set(SOURCE ${PROJECT_SOURCE_DIR}/src)
 
 set(SOURCE_FILES
-  ${EXAMPLES}/main.cpp) 
+  ${SOURCE}/main.cpp) 
 
 
 add_executable(BoardPlatformer ${SOURCE_FILES})
