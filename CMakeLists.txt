@@ -3,16 +3,20 @@ project(board_platformer)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
+
 # nana dependency X11
 find_package(X11 REQUIRED)
 include_directories(${X11_INCLUDE_DIR})
 
 #
-find_package(FontConfig REQUIRED)
-include_directories(${FondConfig_INCLUDE_DIR})
+set(CMAKE_MODULE_PATH
+    ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+find_package(FontConfig REQUIRED) 
+include_directories(${FontConfig_INCLUDE_DIR})
 
 # nana library
-set(NANA_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nana")
+set(NANA_ROOT_DIR "${SOURCE_DIR}/nana")
 set(CMAKE_INSTALL_PREFIX ${NANA_ROOT_DIR})
 add_subdirectory(${NANA_ROOT_DIR})
 find_library(NANA_LIB NAME nana PATHS "${NANA_ROOT_DIR}")
@@ -20,7 +24,6 @@ message("NANA_LIB = ${NANA_LIB}")
 include_directories(${NANA_ROOT_DIR}/include)
 
 # board_platformer
-set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
 set(SOURCE_FILES ${SOURCE_DIR}/main.cpp)
 set(CMAKE_CXX_FLAGS
     "${CMAKE_CXX_FLAGS} -Wall -Wextra -O3 -pthread")
@@ -42,7 +45,8 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME}
+    ${FONTCONFIG_LIBRARIES}
     ${X11_LIBRARIES}
-    ${FontConfig_LIBRARIES}
+    ${X11_Xft_LIB}
     ${NANA_LIB}
     stdc++fs)
