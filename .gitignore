@@ -11,7 +11,7 @@ cmake_install.cmake
 Makefile
 
 # executables
-template_project
+board_platformer
 
 # gcc temporary files
 *.gch
