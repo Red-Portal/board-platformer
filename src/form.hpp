@@ -4,14 +4,18 @@
 #include <nana/gui.hpp>
 #include <nana/gui/widgets/label.hpp>
 
-namespace bp
+#include "game.hpp"
+
+namespace board_platformer
 {
-    class bp_form : public nana::form
+    class main_form: public nana::form
     {
+        using widget = nana::widget;
     private:
+
     public:
-        bp_form();
-        ~bp_form() = default;
+        main_form();
+        ~main_form() = default;
     };
 }
 

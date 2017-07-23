@@ -4,7 +4,7 @@
 
 int main()
 {
-    auto main_form = bp::bp_form{};
+    auto main_form = board_platformer::main_form{};
     main_form.show();
     nana::exec();
     return 0;

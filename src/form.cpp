@@ -3,14 +3,15 @@
 
 #include "form.hpp"
 
-namespace bp
+namespace board_platformer
 {
-    bp_form::
-    bp_form()
+    main_form::
+    main_form()
         : nana::form(nana::API::make_center(800, 450))
     {
-        nana::widget::caption(
+        widget::caption(
             "Board Platformer - A Board game AI development platform");
         // auto text = std::string{"this is some test plain text!"};
+
     }
 }
