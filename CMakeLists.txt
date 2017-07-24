@@ -26,9 +26,14 @@ message("NANA_LIB = ${NANA_LIB}")
 include_directories(${NANA_ROOT_DIR}/include)
 
 # board_platformer
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
 set(SOURCE_FILES
     ${SOURCE_DIR}/main.cpp
-    ${SOURCE_DIR}/form.cpp)
+    ${SOURCE_DIR}/form.cpp
+    ${SOURCE_DIR}/game.cpp
+    ${SOURCE_DIR}/rpc_message.pb.cc
+    ${SOURCE_DIR}/player.cpp)
 message("Source Files = ${SOURCE_FILES}")
 
 set(CMAKE_CXX_FLAGS

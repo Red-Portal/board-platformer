@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+message point_t
+{
+	int32 x = 1;
+	int32 y = 2;
+}
+
+message point_state_t
+{
+	point_t point = 1;
+	int32 unit_type = 2;
+}
+
+message board_state
+{
+	int64 time_limit = 1;
+	repeated point_state_t point_state = 2;
+}
+
+message player_move
+{
+	int32 unit_type = 1;	
+	repeated point_state_t move = 2;
+}
+
+service board_platformer
+{
+	rpc send_board_state (board_state)
+	returns (player_move) {}
+}
