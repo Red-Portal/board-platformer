@@ -21,7 +21,6 @@ namespace board_platformer
         global_logger() = default;
 
     public:
-        static std::unique_ptr<global_logger> _instance;
         global_logger& get_instance();
     };
 }
