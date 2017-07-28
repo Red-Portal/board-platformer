@@ -11,6 +11,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 set(SOURCE_FILES
     ${SOURCE_DIR}/main.cpp
     ${SOURCE_DIR}/form.cpp
+    ${SOURCE_DIR}/logger.cpp
     ${SOURCE_DIR}/rpc_message.pb.cc
     ${SOURCE_DIR}/player.cpp)
 
@@ -21,6 +22,10 @@ set(BUILD_FLAGS
 message("C++ flags = ${BUILD_FLAGS}")
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+# Boost
+find_package(Boost 1.64 COMPONENTS system filesystem REQUIRED)
+include_directories(${BOOST_INCLUDE_DIRS})
 
 # nana dependency X11
 find_package(X11 REQUIRED)
@@ -77,4 +82,6 @@ target_link_libraries(${PROJECT_NAME}
     ${NANA_LIB}
     ${PROTOBUF_LIBRARY}
     ${CMAKE_THREAD_LIBS_INIT}
+    ${Boost_SYSTEM_LIBRARY}
+    ${Boost_FILESYSTEM_LIBRARY}
     stdc++fs)
