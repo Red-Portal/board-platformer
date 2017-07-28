@@ -2,7 +2,7 @@
 // source: rpc_message.proto
 
 #define INTERNAL_SUPPRESS_PROTOBUF_FIELD_DEPRECATION
-#include <board_platformer/detail/rpc_message.pb.h>
+#include "rpc_message.pb.h"
 
 #include <algorithm>
 
@@ -155,12 +155,12 @@ void AddDescriptorsImpl() {
       "rd_state\022\022\n\ntime_limit\030\001 \001(\003\022#\n\013point_st"
       "ate\030\002 \003(\0132\016.point_state_t\">\n\013player_move"
       "\022\021\n\tunit_type\030\001 \001(\005\022\034\n\004move\030\002 \003(\0132\016.poin"
-      "t_state_t2D\n\020board_platformer\0220\n\020send_bo"
-      "ard_state\022\014.board_state\032\014.player_move\"\000b"
-      "\006proto3"
+      "t_state_t2I\n\025board_platformer_comm\0220\n\020se"
+      "nd_board_state\022\014.board_state\032\014.player_mo"
+      "ve\"\000b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 327);
+      descriptor, 332);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "rpc_message.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
