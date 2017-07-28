@@ -5,11 +5,16 @@
 
 #include <board_platformer/game_base.hpp>
 
-namespace user
+namespace game
 {
     namespace bp = board_platformer;
 
     class game : bp::game_base
+    {
+        
+    };
+
+    struct game_board : bp::game_board_base
     {
         
     };

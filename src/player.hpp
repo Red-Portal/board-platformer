@@ -3,19 +3,22 @@
 
 #include <experimental/filesystem>
 
-#include <board_platformer/constants.hpp>
+#include <board_platformer/types.hpp>
+#include <board_platformer/point.hpp>
+#include <board_platformer/detail/rpc_message.pb.h>
 
 #include "game.hpp"
 
 namespace board_platformer
 {
+
     class player
     {
     public:
         player();
 
-        std::pair<game::board_state, point>
-        play_turn(game::board const&);
+        std::pair<unit_type, board_platformer::point>
+        play_turn(game::game_board const&);
     };
 }
 

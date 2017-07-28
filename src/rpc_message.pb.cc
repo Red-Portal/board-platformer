@@ -2,7 +2,7 @@
 // source: rpc_message.proto
 
 #define INTERNAL_SUPPRESS_PROTOBUF_FIELD_DEPRECATION
-#include "rpc_message.pb.h"
+#include <board_platformer/detail/rpc_message.pb.h>
 
 #include <algorithm>
 

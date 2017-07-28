@@ -8,10 +8,10 @@ namespace board_platformer
 
     }
 
-    void
+    std::pair<unit_type, board_platformer::point>
     player::
-    play(game::game const& )
+    play_turn(game::game_board const& )
     {
-        
+        return { 0, board_platformer::point(0,0)}; 
     }
 }
