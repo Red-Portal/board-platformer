@@ -24,7 +24,7 @@ message player_move
 	repeated point_state_t move = 2;
 }
 
-service board_platformer
+service board_platformer_comm
 {
 	rpc send_board_state (board_state)
 	returns (player_move) {}
