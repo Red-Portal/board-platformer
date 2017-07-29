@@ -7,7 +7,7 @@
 
 namespace board_platformer
 {
-    typedef strong_type<uint32_t> unit_type;
+    typedef strong_type<uint16_t> unit_type;
 
     struct point_t
     {
