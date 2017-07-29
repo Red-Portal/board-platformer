@@ -1,5 +1,11 @@
 syntax = "proto3";
 
+service board_platformer_comm
+{
+	rpc send_board_state (board_state)
+	returns (player_move) {}
+}
+
 message point_t
 {
 	int32 x = 1;
@@ -22,10 +28,4 @@ message player_move
 {
 	int32 unit_type = 1;	
 	repeated point_state_t move = 2;
-}
-
-service board_platformer_comm
-{
-	rpc send_board_state (board_state)
-	returns (player_move) {}
 }
