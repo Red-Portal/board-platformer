@@ -3,6 +3,7 @@
 
 #include <board_platformer/filesystem.hpp>
 
+#include <string>
 #include <mutex>
 #include <memory>
 
@@ -19,9 +20,14 @@ namespace board_platformer
         std::mutex mtx;
 
         global_logger() = default;
+        std::string format_log(std::string const& sender,
+                               std::string const& message) const;
 
     public:
-        global_logger& get_instance();
+        global_logger& get();
+
+        void add_log(std::string const& sender,
+                     std::string const& message);
     };
 }
 
