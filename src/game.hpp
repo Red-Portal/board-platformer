@@ -11,7 +11,7 @@ namespace game
 
     class game : bp::game_base
     {
-        
+
     };
 
     struct game_board : bp::game_board_base

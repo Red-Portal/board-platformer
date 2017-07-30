@@ -7,7 +7,6 @@
 
 #include <board_platformer/filesystem.hpp>
 #include <board_platformer/types.hpp>
-#include <board_platformer/point.hpp>
 #include <board_platformer/detail/rpc_message.pb.h>
 
 #include "game.hpp"
@@ -24,7 +23,7 @@ namespace board_platformer
     public:
         player(ps::child const& player_process);
 
-        std::pair<unit_type, board_platformer::point>
+        std::pair<unit_type, board_platformer::point_t>
         play_turn(game::game_board const&);
     };
 }

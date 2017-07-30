@@ -1,7 +1,5 @@
 #include <nana/gui.hpp>
 
-#include <board_platformer/point.hpp>
-
 #include "form.hpp"
 #include "game.hpp"
 

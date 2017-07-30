@@ -6,7 +6,7 @@ namespace board_platformer
     server::grpc_service::
     send_board_state(grpc::ServerContext* context,
                      board_state const* state,
-                     player_move* move) override
+                     player_move* move) 
     {
         
     }
@@ -23,9 +23,8 @@ namespace board_platformer
 
         builder.RegisterService(&service);
 
-        _server_instance(
-            std::make_unique(
-                builder.BuildAndStart()));
+        _server_instance = 
+            std::unique_ptr<grpc::Server>(builder.BuildAndStart());
     }
 
     void
@@ -35,7 +34,7 @@ namespace board_platformer
         
     }
 
-    std::vector<point_state>
+    std::vector<point_state_t>
     server::
     play_turn(process_id const& id,
               game::game_board const& current_board)

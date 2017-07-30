@@ -10,6 +10,8 @@
 
 #include <board_platformer/detail/rpc.hpp>
 
+#include "game.hpp"
+
 namespace board_platformer
 {
     class server
@@ -33,14 +35,14 @@ namespace board_platformer
         server(server&& other) = default;
         server& operator=(server&& other) = default;
 
-        server(std::string net_address);
+        server(std::string const& net_address);
 
         void run_server();
 
-        std::vector<point_state>
+        std::vector<point_state_t>
         play_turn(process_id const& id,
                   game::game_board const& current_board);
-    }
+    };
 }
 
 #endif

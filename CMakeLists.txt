@@ -14,10 +14,13 @@
  set(CMAKE_MODULE_PATH
      ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 
- # board_platformer
- include_directories(${PROJECT_SOURCE_DIR}/include)
+ set(BUILD_FLAGS
+     "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -O3")
+ message("C++ flags = ${BUILD_FLAGS}")
 
- set(SOURCE_FILES
+ ### TARGET ###
+ ## board_platformer main process
+ set(MAIN_SOURCE_FILES
      ${SOURCE_DIR}/main.cpp
      ${SOURCE_DIR}/form.cpp
      ${SOURCE_DIR}/logger.cpp
@@ -26,52 +29,107 @@
      ${SOURCE_DIR}/rpc_message.grpc.pb.cc
      ${SOURCE_DIR}/player.cpp)
 
- message("Source Files = ${SOURCE_FILES}")
+ message("[ Source files for board_platformer ]")
+ foreach(MAIN_FILE ${MAIN_SOURCE_FILES})
+     message(STATUS "${MAIN_FILE}")
+ endforeach()
 
- set(BUILD_FLAGS
-     "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -O3")
- message("C++ flags = ${BUILD_FLAGS}")
+ add_executable(board_platformer ${MAIN_SOURCE_FILES})
 
- add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+ set_target_properties(board_platformer
+     PROPERTIES COMPILE_FLAGS "${BUILD_FLAGS}")
 
- # Grpc
+ target_include_directories(board_platformer
+     PUBLIC
+     ${PROJECT_SOURCE_DIR}/include)
+ 
+ target_link_libraries(board_platformer
+     PRIVATE
+     stdc++fs)
+
+
+ ## Grpc
  find_package(GRPC REQUIRED)
- include_directories(GRPC_INCLUDE_DIRS)
 
- # Boost
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${GRPC_LIBRARIES})
+
+ target_include_directories(board_platformer
+     PRIVATE
+     ${GRPC_INCLUDE_DIRS})
+
+
+ ## protobuf library
+ find_package(Protobuf REQUIRED)
+
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${PROTOBUF_LIBRARY})
+
+ target_include_directories(board_platformer
+     PRIVATE
+     ${PROTOBUF_INCLUDE_DIR})
+
+ ## Boost
  find_package(Boost 1.64 COMPONENTS system filesystem REQUIRED)
- include_directories(${BOOST_INCLUDE_DIRS})
 
- # nana dependency X11
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${Boost_SYSTEM_LIBRARY}
+     ${Boost_FILESYSTEM_LIBRARY})
+
+ target_include_directories(board_platformer
+     PRIVATE
+     ${BOOST_INCLUDE_DIRS})
+
+ ## nana dependency X11
  find_package(X11 REQUIRED)
- include_directories(${X11_INCLUDE_DIR})
- message("found X11 for Unix.")
+ message("[ found X11 for Unix ]")
 
- # Thread library dependency
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${X11_LIBRARIES}
+     ${X11_Xft_LIB})
+
+ target_include_directories(board_platformer
+     PRIVATE
+     ${X11_INCLUDE_DIR})
+
+ ## Thread library dependency
  find_package(Threads REQUIRED)
 
- # FonConfig Custom findModule
- find_package(FontConfig REQUIRED) 
- include_directories(${FontConfig_INCLUDE_DIR})
- message("found FontConfig for Unix.")
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${CMAKE_THREAD_LIBS_INIT})
 
- # nana library
+ ## FonConfig Custom findModule
+ find_package(FontConfig REQUIRED) 
+ message("[ found FontConfig for Unix ]")
+
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${FONTCONFIG_LIBRARIES})
+
+ target_include_directories(board_platformer
+     PRIVATE
+     ${FontConfig_INCLUDE_DIR})
+
+ ## nana library
  set(NANA_ROOT_DIR "${SOURCE_DIR}/nana")
  set(CMAKE_INSTALL_PREFIX ${NANA_ROOT_DIR})
- # add_subdirectory(${NANA_ROOT_DIR})
  find_library(NANA_LIB NAME nana PATHS "${NANA_ROOT_DIR}")
- message("NANA_LIB = ${NANA_LIB}")
- include_directories(${NANA_ROOT_DIR}/include)
 
- # protobuf library
- find_package(Protobuf REQUIRED)
- include_directories(${PROTOBUF_INCLUDE_DIR})
+ target_include_directories(board_platformer
+     PRIVATE
+     ${NANA_ROOT_DIR}/include)
 
- # nana linking
- # if nana is already built, just link. if not, build nana
+ # if nana is already built, just link. if not, build nana from scratch
  if(NOT NANA_LIB)
-     message("lib nana not built. Adding as dependency.")
-     add_dependencies(${PROJECT_NAME} nana)
+     message("[ lib nana not built or not found ]")
+     message(STATUS "Building nana.")
+     add_subdirectory(${NANA_ROOT_DIR})
+     add_dependencies(board_platformer nana)
 
      # nana's standard must be set to higher than C++1z
      # in order to use std filesystem
@@ -79,23 +137,32 @@
 	 PROPERTIES
 	 CXX_STANDARD 17)
 
+
      # absolute path to libnana. Need something better than this
      set(NANA_LIB ${NANA_ROOT_DIR}/libnana.a)
  else()
-     message("lib nana already built, skipping building nana.")
+     message("[ lib nana found ]")
+     message(STATUS "PATH = ${NANA_LIB}")
+     message(STATUS "skipping building nana.")
  endif()
 
- set_target_properties(${PROJECT_NAME}
-     PROPERTIES COMPILE_FLAGS "${BUILD_FLAGS}")
+ # set_target_properties(nana
+ # 	   PROPERTIES LINK_INTERFACE_LIBRARIES
+ # 	   stdc++fs)
 
- target_link_libraries(${PROJECT_NAME}
-     ${FONTCONFIG_LIBRARIES}
-     ${X11_LIBRARIES}
-     ${X11_Xft_LIB}
-     ${NANA_LIB}
-     ${PROTOBUF_LIBRARY}
-     ${CMAKE_THREAD_LIBS_INIT}
-     ${Boost_SYSTEM_LIBRARY}
-     ${Boost_FILESYSTEM_LIBRARY}
-     ${GRPC_LIBRARIES}
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${NANA_LIB})
+
+ # adding stdc++fs dependency again because nana required this linking order
+ # do not delete this
+ target_link_libraries(board_platformer
+     PRIVATE
      stdc++fs)
+
+ ## include directories status 
+ message("[ board_platformer include directories ]")
+ get_target_property(MAIN_INCLUDE_DIRS board_platformer INCLUDE_DIRECTORIES)
+ foreach(MAIN_INCLUDE_DIR ${MAIN_INCLUDE_DIRS})
+     message(STATUS "${MAIN_INCLUDE_DIR}")
+ endforeach()

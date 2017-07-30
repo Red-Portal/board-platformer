@@ -1,7 +1,7 @@
 #ifndef _RPC_HPP_
 #define _RPC_HPP_
 
-#include "strong_type"
+#include "strong_type.hpp"
 
 namespace board_platformer
 {
