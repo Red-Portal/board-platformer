@@ -48,6 +48,21 @@
      stdc++fs)
 
 
+ ### TARGET ###
+ ## board_platformer logger process
+ set(LOGGER_SOURCE_DIR ${SOURCE_DIR}/logger)
+
+ set(LOGGER_SOURCE_FILES
+     ${LOGGER_SOURCE_DIR}/logger.cpp
+     ${LOGGER_SOURCE_DIR}/main.cpp) 
+
+ add_executable(board_platformer_logger ${LOGGER_SOURCE_FILES})
+
+ target_link_libraries(board_platformer_logger
+     PRIVATE
+     stdc++fs)
+
+
  ## Grpc
  find_package(GRPC REQUIRED)
 
@@ -71,6 +86,7 @@
      PRIVATE
      ${PROTOBUF_INCLUDE_DIR})
 
+
  ## Boost
  find_package(Boost 1.64 COMPONENTS system filesystem REQUIRED)
 
@@ -79,9 +95,19 @@
      ${Boost_SYSTEM_LIBRARY}
      ${Boost_FILESYSTEM_LIBRARY})
 
+ target_link_libraries(board_platformer_logger
+     PRIVATE
+     ${Boost_SYSTEM_LIBRARY}
+     ${Boost_FILESYSTEM_LIBRARY})
+
  target_include_directories(board_platformer
      PRIVATE
      ${BOOST_INCLUDE_DIRS})
+
+ target_include_directories(board_platformer_logger
+     PRIVATE
+     ${BOOST_INCLUDE_DIRS})
+
 
  ## nana dependency X11
  find_package(X11 REQUIRED)
@@ -166,3 +192,6 @@
  foreach(MAIN_INCLUDE_DIR ${MAIN_INCLUDE_DIRS})
      message(STATUS "${MAIN_INCLUDE_DIR}")
  endforeach()
+
+ install(TARGETS board_platformer board_platformer_logger
+     RUNTIME DESTINATION bin)
