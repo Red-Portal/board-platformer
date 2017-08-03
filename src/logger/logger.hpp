@@ -10,12 +10,6 @@ namespace board_platformer
     namespace chrono = std::chrono;
     using time_point = chrono::time_point<chrono::steady_clock>;
 
-    namespace
-    {
-        void time_check(time_point* last_input_time,
-                        std::mutex* mtx);
-    }
-
     class mtx_time_point
     {
     private:
@@ -41,6 +35,11 @@ namespace board_platformer
             return _last_input_time;
         }
     };
+
+    namespace
+    {
+        void time_check(mtx_time_point* last_input_time);
+    }
     
 
     class parallel_logger
