@@ -60,7 +60,11 @@
 
  target_link_libraries(board_platformer_logger
      PRIVATE
+     pthread
      stdc++fs)
+
+ set_target_properties(board_platformer_logger
+     PROPERTIES COMPILE_FLAGS "${BUILD_FLAGS}")
 
 
  ## Grpc
@@ -129,6 +133,10 @@
      PRIVATE
      ${CMAKE_THREAD_LIBS_INIT})
 
+ target_link_libraries(board_platformer_logger
+     PRIVATE
+     ${CMAKE_THREAD_LIBS_INIT})
+
  ## FonConfig Custom findModule
  find_package(FontConfig REQUIRED) 
  message("[ found FontConfig for Unix ]")
@@ -194,4 +202,4 @@
  endforeach()
 
  install(TARGETS board_platformer board_platformer_logger
-     RUNTIME DESTINATION bin)
+     RUNTIME DESTINATION bin/)
