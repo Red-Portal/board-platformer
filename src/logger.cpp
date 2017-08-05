@@ -1,16 +1,22 @@
 #include "logger.hpp"
 
+#include <iostream>
+
 namespace board_platformer
 {
+    global_logger::
+    global_logger()
+        :_log_stream(),
+         _logger("board_platformer_logger", "10",
+                 ps::std_in < _log_stream)
+    {}
+
     global_logger&
-    global_logger::get()
+    global_logger::
+    get_singleton()
     {
-        static std::unique_ptr<global_logger> _instance = nullptr;
-
-        if(_instance == nullptr)
-            _instance = std::unique_ptr<global_logger>();
-
-        return *_instance;
+        static global_logger _instance;
+        return _instance;
     }
 
     std::string
@@ -20,8 +26,7 @@ namespace board_platformer
     {
         std::string first =
             std::string("from ") + sender + std::string("\n");
-        std::string second =
-            message + std::string("\n");
+        std::string second = message;
 
         return first + second;
     }
@@ -31,5 +36,7 @@ namespace board_platformer
                            std::string const& message)
     {
         auto const& log_line = format_log(sender, message);
+
+        _log_stream << log_line;
     }
 }

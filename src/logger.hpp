@@ -1,6 +1,9 @@
 #ifndef _LOGGER_HPP_
 #define _LOGGER_HPP_
 
+#include <boost/process/child.hpp>
+#include <boost/process/io.hpp>
+#include <boost/process/search_path.hpp>
 #include <board_platformer/filesystem.hpp>
 
 #include <string>
@@ -9,22 +12,21 @@
 
 namespace board_platformer
 {
-    namespace
-    {
-        const fs::path _log_path = "./log/"; 
-    }
+    namespace ps = boost::process;
 
     class global_logger
     {
     private:
-        std::mutex mtx;
+        ps::opstream _log_stream;
+        ps::child _logger;
 
-        global_logger() = default;
         std::string format_log(std::string const& sender,
                                std::string const& message) const;
 
+        global_logger();
+
     public:
-        global_logger& get();
+        static global_logger& get_singleton();
 
         void add_log(std::string const& sender,
                      std::string const& message);
