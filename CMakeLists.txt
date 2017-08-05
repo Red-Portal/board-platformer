@@ -15,7 +15,7 @@
      ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 
  set(BUILD_FLAGS
-     "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -O3")
+     "${CMAKE_CXX_FLAGS} -g -fPIC -Wall -Wextra")
  message("C++ flags = ${BUILD_FLAGS}")
 
  ### TARGET ###
@@ -66,19 +66,6 @@
  set_target_properties(board_platformer_logger
      PROPERTIES COMPILE_FLAGS "${BUILD_FLAGS}")
 
-
- ## Grpc
- find_package(GRPC REQUIRED)
-
- target_link_libraries(board_platformer
-     PRIVATE
-     ${GRPC_LIBRARIES})
-
- target_include_directories(board_platformer
-     PRIVATE
-     ${GRPC_INCLUDE_DIRS})
-
-
  ## protobuf library
  find_package(Protobuf REQUIRED)
 
@@ -89,6 +76,18 @@
  target_include_directories(board_platformer
      PRIVATE
      ${PROTOBUF_INCLUDE_DIR})
+
+
+ ## Grpc
+ find_package(GRPC REQUIRED)
+
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${GRPC_LIBRARIES})
+
+ target_include_directories(board_platformer
+     PRIVATE
+     ${GRPC_INCLUDE_DIR})
 
 
  ## Boost
