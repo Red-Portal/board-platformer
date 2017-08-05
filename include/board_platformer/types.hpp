@@ -7,7 +7,12 @@
 
 namespace board_platformer
 {
-    typedef strong_type<uint16_t> unit_type;
+    namespace{
+        namespace strong_type_types{
+            enum class unit_type { null };
+        }
+    }
+    typedef strong_type<uint16_t, strong_type_types::unit_type> unit_type;
 
     struct point_t
     {

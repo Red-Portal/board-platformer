@@ -5,7 +5,15 @@
 
 namespace board_platformer
 {
-    typedef strong_type<uint16_t> process_id;
+    namespace
+    {
+        namespace strong_type_types
+        {
+            enum class _process_id {null};
+        }
+    }
+    typedef strong_type<uint16_t,
+                        strong_type_types::_process_id> process_id;
 }
 
 #endif
