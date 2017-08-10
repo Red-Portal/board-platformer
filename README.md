@@ -8,6 +8,7 @@
 <li><a href="#sec-1-2">1.2. Current State</a></li>
 <li><a href="#sec-1-3">1.3. Development TODO list</a></li>
 <li><a href="#sec-1-4">1.4. Dependencies</a></li>
+<li><a href="#sec-1-5">1.5. License</a></li>
 </ul>
 </li>
 </ul>
@@ -56,3 +57,21 @@ you'll first have to successfully create a build system of your own.
     -   [process](http://www.boost.org/doc/libs/1_64_0/doc/html/process.html)
 -   threads
 -   standard filesystem
+
+## License<a id="sec-1-5" name="sec-1-5"></a>
+
+Board Platformer. A Board Game AI Developing Platform                     
+Copyright (C) 2017  Red-Portal                                            
+
+This program is free software: you can redistribute it and/or modify  
+it under the terms of the GNU General Public License as published by  
+the Free Software Foundation, either version 3 of the License, or     
+(at your option) any later version.                                   
+
+This program is distributed in the hope that it will be useful,       
+but WITHOUT ANY WARRANTY; without even the implied warranty of        
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
+GNU General Public License for more details.                        
+
+You should have received a copy of the GNU General Public License     
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
