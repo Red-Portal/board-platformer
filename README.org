@@ -18,11 +18,11 @@ A Board Game AI Developing Platform
   (this alone will be a create contribution!)
   
 ** Development TODO list
-   1. [-] Logging system
-   2. [ ] Game server
-   3. [ ] GUI
-   4. [ ] Automatic Play 
-   5. [ ] Example Implementation
+   - [X] Logging system
+   - [ ] Game server
+   - [ ] GUI
+   - [ ] Automatic Play 
+   - [ ] Example Implementation
       
 ** Dependencies
    - [[https://grpc.io][grpc]]

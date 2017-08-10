@@ -15,7 +15,6 @@
 </div>
 </div>
 
-
 # Board Platformer<a id="sec-1" name="sec-1"></a>
 
 A Board Game AI Developing Platform
@@ -40,11 +39,11 @@ you'll first have to successfully create a build system of your own.
 
 ## Development TODO list<a id="sec-1-3" name="sec-1-3"></a>
 
-1.  [-] Logging system
-2.  [ ] Game server
-3.  [ ] GUI
-4.  [ ] Automatic Play
-5.  [ ] Example Implementation
+-   [X] Logging system
+-   [ ] Game server
+-   [ ] GUI
+-   [ ] Automatic Play
+-   [ ] Example Implementation
 
 ## Dependencies<a id="sec-1-4" name="sec-1-4"></a>
 
