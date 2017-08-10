@@ -31,6 +31,12 @@ Board Platformer is currently under very early development.
 The project is not even close to partially done, Everything is subject to change.
 Contributers are very welcome, However ask me first before jumping in.
 
+My personal development environment is Linux.
+Thus no support for different platforms are available.
+If your willing to contribute from a different platform,
+you'll first have to successfully create a build system of your own.
+(this alone will be a create contribution!)
+
 ## Development TODO list<a id="sec-1-3" name="sec-1-3"></a>
 
 1.  [-] Logging system
