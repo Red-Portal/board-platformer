@@ -8,6 +8,7 @@
 
 #include <string>
 #include <mutex>
+#include <iostream>
 #include <memory>
 
 namespace board_platformer

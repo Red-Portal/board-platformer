@@ -1,6 +1,5 @@
 #include "logger.hpp"
 
-#include <iostream>
 
 namespace board_platformer
 {
@@ -38,5 +37,6 @@ namespace board_platformer
         auto const& log_line = format_log(sender, message);
 
         _log_stream << log_line;
+        std::cout << log_line << std::endl;
     }
 }

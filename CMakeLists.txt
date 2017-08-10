@@ -81,13 +81,13 @@
  ## Grpc
  find_package(GRPC REQUIRED)
 
- target_link_libraries(board_platformer
-     PRIVATE
-     ${GRPC_LIBRARIES})
-
  target_include_directories(board_platformer
      PRIVATE
      ${GRPC_INCLUDE_DIR})
+
+ target_link_libraries(board_platformer
+     PRIVATE
+     ${GRPC_GRPC++_LIBRARY})
 
 
  ## Boost
@@ -201,4 +201,4 @@
  endforeach()
 
  install(TARGETS board_platformer board_platformer_logger
-     RUNTIME DESTINATION bin/)
+     RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/bin/)
