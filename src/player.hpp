@@ -23,6 +23,10 @@
 #include <utility>
 
 #include <boost/process/child.hpp>
+#include <board_platformer/detail/rpc_message.grpc.pb.h>
+#include <grpc/grpc.h>
+#include <grpc++/client_context.h>
+#include <grpc++/security/credentials.h>
 
 #include <board_platformer/filesystem.hpp>
 #include <board_platformer/types.hpp>
@@ -34,15 +38,24 @@ namespace board_platformer
 {
     namespace ps = boost::process;
 
+    using comm = board_platformer_comm;
+    using proto_player_move = player_move;
+    using proto_board_state = board_state;
+
     class player
     {
     private:
         ps::child _player_process;
+        std::unique_ptr<comm::Stub> _stub;
+
+        proto_player_move
+        play_turn_impl(proto_board_state const& board) const;
 
     public:
-        player(ps::child const& player_process);
+        inline player(ps::child&& player_process,
+                      adress_t const& address);
 
-        std::pair<unit_type, board_platformer::point_t>
+        std::pair<unit_type, point_t>
         play_turn(game::game_board const&);
     };
 }

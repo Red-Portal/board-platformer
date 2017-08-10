@@ -1,4 +1,3 @@
-
 ///////////////////////////////////////////////////////////////////////////////
 // Board Platformer. A Board Game AI Developing Platform                     //
 // Copyright (C) 2017  Red-Portal                                            //
@@ -17,51 +16,41 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>. //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _PROCESS_COMM_HPP_
-#define _PROCESS_COMM_HPP_
+// #ifndef _PROCESS_COMM_HPP_
+// #define _PROCESS_COMM_HPP_
 
-#include <string>
-#include <memory>
+// #include <string>
+// #include <memory>
 
-#include <grpc++/grpc++.h>
-#include <board_platformer/detail/rpc_message.grpc.pb.h>
-#include <board_platformer/detail/rpc_message.pb.h>
+// #include <grpc++/grpc++.h>
+// #include <grpc++/channel.h>
+// #include <grpc++/client_context.h>
+// #include <grpc++/create_channel.h>
+// #include <grpc++/security/credentials.h>
+// #include <board_platformer/detail/rpc_message.grpc.pb.h>
+// #include <board_platformer/detail/rpc_message.pb.h>
+// #include <boost/process/child.hpp>
 
-#include <board_platformer/detail/rpc.hpp>
+// #include <board_platformer/detail/rpc.hpp>
 
-#include "game.hpp"
+// #include "game.hpp"
 
-namespace board_platformer
-{
-    class server
-    {
-    private:
-        class grpc_service final
-            : public board_platformer_comm::Service
-        {
-        private:
-            grpc::Status
-            send_board_state(grpc::ServerContext* context,
-                             board_state const* state,
-                             player_move* move) override;
+// namespace board_platformer
+// {
+//     namespace ps = boost::process;
 
-        };
+//     class server_communicator
+//     {
+//     private:
+//         ps::child _client;
 
-        std::unique_ptr<grpc::Server> _server_instance;
-        
-    public:
-        server() = default;
-        server(server&& other) = default;
-        server& operator=(server&& other) = default;
+//     public:
+//         server_communicator(process_id const& id);
 
-        server(std::string const& net_address);
+//         std::vector<point_state_t>
+//         play_turn(process_id const& id,
+//                   game::game_board const& current_board);
+//     };
+// }
 
-        void run_server();
-
-        std::vector<point_state_t>
-        play_turn(process_id const& id,
-                  game::game_board const& current_board);
-    };
-}
-
-#endif
+// #endif

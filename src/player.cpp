@@ -17,14 +17,31 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>. //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <grpc++/create_channel.h>
+
 #include "player.hpp"
 
 namespace board_platformer
 {
     player::
-    player(ps::child const& player_process)
-// : _player_process(std::move(player_process))
+    player(ps::child&& player_process, adress_t const& address)
+        : _player_process(std::move(player_process)),
+          _stub(
+              comm::NewStub(
+                  grpc::CreateChannel(
+                      address.value,
+                      grpc::InsecureChannelCredentials())))
+    {}
+
+    proto_player_move
+    player::
+    play_turn_impl(proto_board_state const& board) const
     {
+        auto context = grpc::ClientContext();
+        auto move = proto_player_move();
+        _stub->send_board_state(&context, board, &move);
+
+        return move;
     }
 
     std::pair<unit_type, board_platformer::point_t>
@@ -32,6 +49,7 @@ namespace board_platformer
     play_turn(game::game_board const& )
     {
 
+        
         return { 0, board_platformer::point_t(0,0)}; 
     }
 }
