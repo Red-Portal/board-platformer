@@ -1,0 +1,33 @@
+#+TITLE: Board Platformer
+
+* Board Platformer
+A Board Game AI Developing Platform
+
+** Introduction
+  Board Platformer is a generic board game AI developing platform.
+  It supports manually playing agains provided AI process.
+  And also automatic play for gathering stacks of game data.
+  
+** Current State
+  Board Platformer is currently under very early development.
+  The project is not even close to partially done, Everything is subject to change.
+  Contributers are very welcome, However ask me first before jumping in.
+  
+** Development TODO list
+   1. [-] Logging system
+   2. [ ] Game server
+   3. [ ] GUI
+   4. [ ] Automatic Play 
+   5. [ ] Example Implementation
+      
+** Dependencies
+   - [[https://grpc.io][grpc]]
+   - [[https://developers.google.com/protocol-buffers/][protobuf]]
+   - [[http://nanapro.org/en-us/][nana]]
+   - [[http://www.boost.org/][boost]]
+     + [[http://www.boost.org/doc/libs/1_64_0/libs/filesystem/doc/index.htm][filesystem]]
+     + [[http://www.boost.org/doc/libs/1_64_0/libs/filesystem/doc/index.htm][system]]
+     + [[http://www.boost.org/doc/libs/1_64_0/doc/html/process.html][process]]
+   - threads
+   - standard filesystem
+
