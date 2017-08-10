@@ -87,8 +87,8 @@
 
  target_link_libraries(board_platformer
      PRIVATE
+     ${GRPC_LIBRARY}
      ${GRPC_GRPC++_LIBRARY})
-
 
  ## Boost
  find_package(Boost 1.64 COMPONENTS system filesystem REQUIRED)
