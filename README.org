@@ -1,5 +1,3 @@
-#+TITLE: Board Platformer
-
 * Board Platformer
 A Board Game AI Developing Platform
 
