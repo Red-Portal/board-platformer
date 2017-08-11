@@ -1,4 +1,3 @@
-
 ///////////////////////////////////////////////////////////////////////////////
 // Board Platformer. A Board Game AI Developing Platform                     //
 // Copyright (C) 2017  Red-Portal                                            //
@@ -44,12 +43,43 @@ namespace board_platformer
         return move;
     }
 
+    proto_board_state
+    player::
+    serialize_board(game::game_board const& actual_board,
+                    proto_board_state&& proto_board) const
+    {
+        auto size = actual_board.size();
+        for(auto& i : actual_board)
+        {
+            proto_board.add_point_state();
+
+            auto* pt_state = proto_board.mutable_point_state(i);
+            pt_state = set_unit_type(i.state);
+
+            auto* pt = pt_state.mutable_point();
+            pt->set_x(i.x);
+            pt->set_y(i.y);
+        }
+
+        return proto_board; 
+    }
+
     std::pair<unit_type, board_platformer::point_t>
     player::
-    play_turn(game::game_board const& )
+    play_turn(game::game_board const& board,
+              duration const& time_limit)
     {
+        auto proto_board_blank = proto_board_state();
 
-        
+        auto proto_board =
+            serialize_board(board, std::move(proto_board_blank));
+        proto_board.set_time_limit(time_limit.count());
+
+        auto player_move = play_turn_impl(proto_board);
+
+        // add deserializing procedure
+        // add rpc call time measuring procedure
+
         return { 0, board_platformer::point_t(0,0)}; 
     }
 }

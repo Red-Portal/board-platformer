@@ -21,6 +21,9 @@
 #define _PLAYER_HPP_
 
 #include <utility>
+#include <chrono>
+#include <memory>
+#include <stdint.h>
 
 #include <boost/process/child.hpp>
 #include <board_platformer/detail/rpc_message.grpc.pb.h>
@@ -37,10 +40,12 @@
 namespace board_platformer
 {
     namespace ps = boost::process;
+    namespace chrono = std::chrono;
 
     using comm = board_platformer_comm;
     using proto_player_move = player_move;
     using proto_board_state = board_state;
+    using duration = chrono::duration<int64_t,std::milli>;
 
     class player
     {
@@ -51,12 +56,17 @@ namespace board_platformer
         proto_player_move
         play_turn_impl(proto_board_state const& board) const;
 
+        proto_board_state
+        serialize_board(game::game_board const& actual_board,
+                        proto_board_state&& proto_board) const;
+
     public:
         inline player(ps::child&& player_process,
                       adress_t const& address);
 
         std::pair<unit_type, point_t>
-        play_turn(game::game_board const&);
+        play_turn(game::game_board const& board,
+                  duration const& time_limit);
     };
 }
 
