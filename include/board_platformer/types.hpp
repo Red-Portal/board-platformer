@@ -27,21 +27,8 @@
 
 namespace board_platformer
 {
-    namespace{
-        namespace strong_type_types{
-            enum class unit_type { null };
-        }
-    }
-    typedef strong_type<uint16_t, strong_type_types::unit_type> unit_type;
-
-
-    namespace{
-        namespace strong_type_types{
-            enum class ip_address { null };
-        }
-    }
-    typedef strong_type<std::string,
-                        strong_type_types::ip_address> adress_t;
+    STRONG_TYPE(uint16_t, unit_type) unit_type;
+    STRONG_TYPE(std::string, ip_adress_type) adress_t;
 
     struct point_t
     {

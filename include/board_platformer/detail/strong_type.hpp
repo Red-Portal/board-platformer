@@ -22,6 +22,16 @@
 
 #include <string>
 
+#define STRONG_TYPE(TYPE, NAME)                      \
+    namespace{                                       \
+        namespace strong_type_types{                 \
+            enum class NAME##_{ null };              \
+        }                                            \
+    }                                                \
+    typedef strong_type<TYPE,                        \
+                        strong_type_types::NAME##_ > 
+
+
 namespace board_platformer
 {
     template<typename T, typename Type>
