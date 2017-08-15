@@ -47,7 +47,6 @@
      PRIVATE
      stdc++fs)
 
-
  ### TARGET ###
  ## board_platformer logger process
  set(LOGGER_SOURCE_DIR ${SOURCE_DIR}/logger)
