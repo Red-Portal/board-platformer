@@ -393,10 +393,10 @@ class player_move : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // repeated .point_state_t move = 2;
+  // repeated .point_state_t move = 1;
   int move_size() const;
   void clear_move();
-  static const int kMoveFieldNumber = 2;
+  static const int kMoveFieldNumber = 1;
   const ::point_state_t& move(int index) const;
   ::point_state_t* mutable_move(int index);
   ::point_state_t* add_move();
@@ -405,18 +405,11 @@ class player_move : public ::google::protobuf::Message /* @@protoc_insertion_poi
   const ::google::protobuf::RepeatedPtrField< ::point_state_t >&
       move() const;
 
-  // int32 unit_type = 1;
-  void clear_unit_type();
-  static const int kUnitTypeFieldNumber = 1;
-  ::google::protobuf::int32 unit_type() const;
-  void set_unit_type(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:player_move)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::point_state_t > move_;
-  ::google::protobuf::int32 unit_type_;
   mutable int _cached_size_;
   friend struct protobuf_rpc_5fmessage_2eproto::TableStruct;
 };
@@ -565,21 +558,7 @@ board_state::point_state() const {
 
 // player_move
 
-// int32 unit_type = 1;
-inline void player_move::clear_unit_type() {
-  unit_type_ = 0;
-}
-inline ::google::protobuf::int32 player_move::unit_type() const {
-  // @@protoc_insertion_point(field_get:player_move.unit_type)
-  return unit_type_;
-}
-inline void player_move::set_unit_type(::google::protobuf::int32 value) {
-  
-  unit_type_ = value;
-  // @@protoc_insertion_point(field_set:player_move.unit_type)
-}
-
-// repeated .point_state_t move = 2;
+// repeated .point_state_t move = 1;
 inline int player_move::move_size() const {
   return move_.size();
 }

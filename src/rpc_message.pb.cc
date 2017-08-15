@@ -78,7 +78,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(player_move, unit_type_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(player_move, move_),
 };
 
@@ -153,14 +152,13 @@ void AddDescriptorsImpl() {
       "\005\022\t\n\001y\030\002 \001(\005\";\n\rpoint_state_t\022\027\n\005point\030\001"
       " \001(\0132\010.point_t\022\021\n\tunit_type\030\002 \001(\005\"F\n\013boa"
       "rd_state\022\022\n\ntime_limit\030\001 \001(\003\022#\n\013point_st"
-      "ate\030\002 \003(\0132\016.point_state_t\">\n\013player_move"
-      "\022\021\n\tunit_type\030\001 \001(\005\022\034\n\004move\030\002 \003(\0132\016.poin"
-      "t_state_t2I\n\025board_platformer_comm\0220\n\020se"
-      "nd_board_state\022\014.board_state\032\014.player_mo"
-      "ve\"\000b\006proto3"
+      "ate\030\002 \003(\0132\016.point_state_t\"+\n\013player_move"
+      "\022\034\n\004move\030\001 \003(\0132\016.point_state_t2I\n\025board_"
+      "platformer_comm\0220\n\020send_board_state\022\014.bo"
+      "ard_state\032\014.player_move\"\000b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 332);
+      descriptor, 313);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "rpc_message.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -1102,7 +1100,6 @@ board_state::point_state() const {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int player_move::kUnitTypeFieldNumber;
 const int player_move::kMoveFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -1120,12 +1117,10 @@ player_move::player_move(const player_move& from)
       move_(from.move_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  unit_type_ = from.unit_type_;
   // @@protoc_insertion_point(copy_constructor:player_move)
 }
 
 void player_move::SharedCtor() {
-  unit_type_ = 0;
   _cached_size_ = 0;
 }
 
@@ -1163,7 +1158,6 @@ player_move* player_move::New(::google::protobuf::Arena* arena) const {
 void player_move::Clear() {
 // @@protoc_insertion_point(message_clear_start:player_move)
   move_.Clear();
-  unit_type_ = 0;
 }
 
 bool player_move::MergePartialFromCodedStream(
@@ -1176,24 +1170,10 @@ bool player_move::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // int32 unit_type = 1;
+      // repeated .point_state_t move = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &unit_type_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated .point_state_t move = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_move()));
         } else {
@@ -1229,15 +1209,10 @@ void player_move::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 unit_type = 1;
-  if (this->unit_type() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->unit_type(), output);
-  }
-
-  // repeated .point_state_t move = 2;
+  // repeated .point_state_t move = 1;
   for (unsigned int i = 0, n = this->move_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->move(i), output);
+      1, this->move(i), output);
   }
 
   // @@protoc_insertion_point(serialize_end:player_move)
@@ -1250,16 +1225,11 @@ void player_move::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 unit_type = 1;
-  if (this->unit_type() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->unit_type(), target);
-  }
-
-  // repeated .point_state_t move = 2;
+  // repeated .point_state_t move = 1;
   for (unsigned int i = 0, n = this->move_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        2, this->move(i), deterministic, target);
+        1, this->move(i), deterministic, target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:player_move)
@@ -1270,7 +1240,7 @@ size_t player_move::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:player_move)
   size_t total_size = 0;
 
-  // repeated .point_state_t move = 2;
+  // repeated .point_state_t move = 1;
   {
     unsigned int count = this->move_size();
     total_size += 1UL * count;
@@ -1279,13 +1249,6 @@ size_t player_move::ByteSizeLong() const {
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->move(i));
     }
-  }
-
-  // int32 unit_type = 1;
-  if (this->unit_type() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->unit_type());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1318,9 +1281,6 @@ void player_move::MergeFrom(const player_move& from) {
   (void) cached_has_bits;
 
   move_.MergeFrom(from.move_);
-  if (from.unit_type() != 0) {
-    set_unit_type(from.unit_type());
-  }
 }
 
 void player_move::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1347,7 +1307,6 @@ void player_move::Swap(player_move* other) {
 }
 void player_move::InternalSwap(player_move* other) {
   move_.InternalSwap(&other->move_);
-  std::swap(unit_type_, other->unit_type_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -1359,21 +1318,7 @@ void player_move::InternalSwap(player_move* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // player_move
 
-// int32 unit_type = 1;
-void player_move::clear_unit_type() {
-  unit_type_ = 0;
-}
-::google::protobuf::int32 player_move::unit_type() const {
-  // @@protoc_insertion_point(field_get:player_move.unit_type)
-  return unit_type_;
-}
-void player_move::set_unit_type(::google::protobuf::int32 value) {
-  
-  unit_type_ = value;
-  // @@protoc_insertion_point(field_set:player_move.unit_type)
-}
-
-// repeated .point_state_t move = 2;
+// repeated .point_state_t move = 1;
 int player_move::move_size() const {
   return move_.size();
 }
