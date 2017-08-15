@@ -1,20 +1,18 @@
-///////////////////////////////////////////////////////////////////////////////
-// Board Platformer. A Board Game AI Developing Platform                     //
-// Copyright (C) 2017  Red-Portal                                            //
-//                                                                           //
-//     This program is free software: you can redistribute it and/or modify  //
-//     it under the terms of the GNU General Public License as published by  //
-//     the Free Software Foundation, either version 3 of the License, or     //
-//     (at your option) any later version.                                   //
-//                                                                           //
-//     This program is distributed in the hope that it will be useful,       //
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of        //
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         //
-//     GNU General Public License for more details.                          //
-//                                                                           //
-//     You should have received a copy of the GNU General Public License     //
-//     along with this program.  If not, see <http://www.gnu.org/licenses/>. //
-///////////////////////////////////////////////////////////////////////////////
+// Board Platformer. A Board Game AI Developing Platform
+// Copyright (C) 2017  Red-Portal
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <grpc++/create_channel.h>
 
@@ -34,7 +32,7 @@ namespace board_platformer
 
     proto_player_move
     player::
-    play_turn_impl(proto_board_state const& board) const
+    send_message(proto_board_state const& board) const
     {
         auto context = grpc::ClientContext();
         auto move = proto_player_move();
@@ -48,26 +46,49 @@ namespace board_platformer
     serialize_board(game::game_board const& actual_board,
                     proto_board_state&& proto_board) const
     {
-        auto size = actual_board.size();
-        for(auto& i : actual_board)
+        size_t index = 0;
+        for(auto const& i : actual_board)
         {
+            ++index;
             proto_board.add_point_state();
 
-            auto* pt_state = proto_board.mutable_point_state(i);
-            pt_state = set_unit_type(i.state);
+            auto* pt_state = proto_board.mutable_point_state(index);
+            pt_state->set_unit_type(i.state.value);
+            auto* pt = pt_state->mutable_point();
 
-            auto* pt = pt_state.mutable_point();
-            pt->set_x(i.x);
-            pt->set_y(i.y);
+            auto const& coord = i.point;
+            pt->set_x(coord.x);
+            pt->set_y(coord.y);
         }
 
         return proto_board; 
     }
 
-    std::pair<unit_type, board_platformer::point_t>
+    std::vector<point_state>
+    player::
+    deserialize_moves(proto_player_move const& moves) const
+    {
+        size_t size = moves.move_size();
+        std::vector<point_state> deserialized_moves;
+
+        for(auto i = 0u; i < size; ++i)
+        {
+            auto proto_move = moves.move(i);
+            auto point = proto_move.point();
+            auto unit_type = proto_move.unit_type();
+
+            auto move = point_state(point.x(), point.y(), unit_type);
+
+            deserialized_moves.push_back(std::move(move));
+        }
+
+        return deserialized_moves;
+    }
+
+    std::tuple<std::vector<point_state>, duration_t>
     player::
     play_turn(game::game_board const& board,
-              duration const& time_limit)
+              duration_t const& time_limit)
     {
         auto proto_board_blank = proto_board_state();
 
@@ -75,11 +96,14 @@ namespace board_platformer
             serialize_board(board, std::move(proto_board_blank));
         proto_board.set_time_limit(time_limit.count());
 
-        auto player_move = play_turn_impl(proto_board);
+        auto start = clock::now();
+        auto player_move = send_message(proto_board);
+        auto end = clock::now();
 
-        // add deserializing procedure
-        // add rpc call time measuring procedure
+        auto moves = deserialize_moves(std::move(player_move));
+        auto duration =
+            chrono::duration_cast<chrono::milliseconds>(end - start);
 
-        return { 0, board_platformer::point_t(0,0)}; 
+        return {moves, duration}; 
     }
 }
