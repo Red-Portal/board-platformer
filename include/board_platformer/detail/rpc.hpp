@@ -22,7 +22,7 @@
 namespace board_platformer
 {
     STRONG_TYPE(uint16_t, _process_id) process_id;
-    STRONG_TYPE(std::string, ip_adress_type) adress_t;
+    STRONG_TYPE(std::string, ip_adress_type) address_t;
 }
 
 #endif
