@@ -16,13 +16,10 @@
 
 #include <string>
 
-#include <boost/process/child.hpp>
-
 #include <grpc++/create_channel.h>
 #include <grpc++/client_context.h>
 #include <grpc++/security/credentials.h>
 #include <board_platformer/detail/rpc_message.pb.h>
-#include <board_platformer/detail/rpc_message.grpc.pb.h>
 #include <board_platformer/detail/rpc.hpp>
 
 #include "player.hpp"
@@ -32,7 +29,7 @@ namespace board_platformer
 {
     player::
     player(ps::child&& player_process,
-           adress_t const& address,
+           address_t const& address,
            player_id_t const& player_id)
         : _player_process(std::move(player_process)),
           _player_id(player_id),

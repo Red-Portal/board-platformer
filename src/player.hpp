@@ -22,10 +22,12 @@
 #include <memory>
 #include <stdint.h>
 
+#include <boost/process/child.hpp>
+#include <grpc/grpc.h>
+
 #include <board_platformer/game.hpp>
 #include <board_platformer/types.hpp>
-
-#include <grpc/grpc.h>
+#include <board_platformer/detail/rpc_message.grpc.pb.h>
 
 class board_platformer_comm;
 class player_move;
@@ -64,7 +66,7 @@ namespace board_platformer
 
     public:
         explicit player(ps::child&& player_process,
-                        adress_t const& adress,
+                        address_t const& adress,
                         player_id_t const& player_id);
 
         std::tuple<std::vector<point_state>, duration_t>
