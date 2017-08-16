@@ -14,15 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <string>
+
+#include <boost/process/child.hpp>
+
 #include <grpc++/create_channel.h>
+#include <grpc++/client_context.h>
+#include <grpc++/security/credentials.h>
+#include <board_platformer/detail/rpc_message.pb.h>
+#include <board_platformer/detail/rpc_message.grpc.pb.h>
+#include <board_platformer/detail/rpc.hpp>
 
 #include "player.hpp"
+#include "logger.hpp"
 
 namespace board_platformer
 {
     player::
-    player(ps::child&& player_process, adress_t const& address)
+    player(ps::child&& player_process,
+           adress_t const& address,
+           player_id_t const& player_id)
         : _player_process(std::move(player_process)),
+          _player_id(player_id),
           _stub(
               comm::NewStub(
                   grpc::CreateChannel(
@@ -96,9 +109,17 @@ namespace board_platformer
             serialize_board(board, std::move(proto_board_blank));
         proto_board.set_time_limit(time_limit.count());
 
+        global_logger::get_singleton()
+            .add_log("player " + std::to_string(_player_id.value),
+                     "waiting for player move..");
+
         auto start = clock::now();
         auto player_move = send_message(proto_board);
         auto end = clock::now();
+
+        global_logger::get_singleton()
+            .add_log("player " + std::to_string(_player_id.value),
+                     "received player move");
 
         auto moves = deserialize_moves(std::move(player_move));
         auto duration =

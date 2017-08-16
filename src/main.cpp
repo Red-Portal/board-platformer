@@ -1,4 +1,3 @@
-
 ///////////////////////////////////////////////////////////////////////////////
 // Board Platformer. A Board Game AI Developing Platform                     //
 // Copyright (C) 2017  Red-Portal                                            //
@@ -23,7 +22,6 @@
 
 #include "logger.hpp"
 #include "form.hpp"
-#include "game.hpp"
 
 namespace bp = board_platformer;
 
