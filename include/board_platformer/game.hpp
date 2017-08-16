@@ -30,6 +30,20 @@ namespace game
         
     // };
 
+    template<size_t tX, size_t tY>
+    void
+    game_board_impl<tX, tY>::
+    initialize_board(game_board_impl& board)
+    {
+        for(size_t i = 0; i < tX; ++i)
+        {
+            for(size_t j = 0; j < tY; ++j)
+            {
+                board(i, j) = bp::unit_type(0);
+            }
+        }
+    }
+
     typedef game_board_impl<19, 19> game_board;
 }
 
