@@ -25,8 +25,7 @@
 namespace board_platformer
 {
     STRONG_TYPE(uint16_t, unit_type) unit_type;
-
-    STRONG_TYPE(std::string, ip_adress_type) adress_t;
+    STRONG_TYPE(uint32_t, player_id_type) player_id_t;
 
     struct point_t
     {
