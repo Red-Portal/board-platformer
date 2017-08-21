@@ -91,10 +91,9 @@ namespace board_platformer
                   + init_time,
                   std::fstream::out);
 
-        fout << "started log process at" << init_time << '\n'
-             << "------------------------------------------"
+        fout << "started log process at " << init_time << '\n'
+             << "------------------------------------------\n"
              << std::endl;
-        std::cout << "started log process\n";
         
         while(true)
         {
