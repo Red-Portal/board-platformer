@@ -26,7 +26,7 @@ namespace board_platformer
                  ps::std_in < _log_stream),
          _log_sender(&global_logger::async_consume_log,
                      _log_queue,
-                     _wait)
+                     _consumer_wait_flag)
     {}
 
     global_logger&
