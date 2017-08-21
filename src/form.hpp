@@ -22,8 +22,6 @@
 #include <nana/gui.hpp>
 #include <nana/gui/widgets/label.hpp>
 
-#include "game.hpp"
-
 namespace board_platformer
 {
     class main_form: public nana::form
