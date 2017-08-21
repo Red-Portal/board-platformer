@@ -23,12 +23,20 @@ namespace board_platformer
     global_logger(bool use_file_log)
         :_log_stream(),
          _logger("board_platformer_logger", "10",
-                 ps::std_in < _log_stream),
+                 ps::std_in < _log_stream,
+                 ps::std_out > _logger_status_stream),
          _log_sender(&global_logger::async_consume_log,
                      _log_queue,
                      _consumer_wait_flag)
     {
         (void)use_file_log;
+
+        auto status = std::string();
+        std::getline(_logger_status_stream, status);
+
+        if(status != "started_log_process")
+            throw; // I'll have to check this later
+
         add_log("global_logger",
                 "initializing global_logger with file log output");
     }

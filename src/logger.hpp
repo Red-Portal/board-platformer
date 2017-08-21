@@ -37,6 +37,7 @@ namespace board_platformer
     {
     private:
         ps::opstream _log_stream;
+        ps::ipstream _logger_status_stream;
         ps::child _logger;
         std::thread _log_sender;
         std::queue<std::string> _log_queue;
