@@ -24,6 +24,8 @@
 
 #include <string>
 #include <mutex>
+#include <thread>
+#include <queue>
 #include <iostream>
 #include <memory>
 
@@ -36,9 +38,14 @@ namespace board_platformer
     private:
         ps::opstream _log_stream;
         ps::child _logger;
+        std::queue<std::string> _log_queue;
+        std::mutex _mtx;
+        std::thread _log_sender;
 
         std::string format_log(std::string const& sender,
                                std::string const& message) const;
+
+        void async_consume_log(std::queue<std::string>& _log_queue);
 
         global_logger();
 
