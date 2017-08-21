@@ -24,32 +24,33 @@
 
 namespace board_platformer
 {
-    STRONG_TYPE(uint16_t, unit_type) unit_type;
+    STRONG_TYPE(uint16_t, unit_type) point_state_t;
     STRONG_TYPE(uint32_t, player_id_type) player_id_t;
 
-    struct point_t
+    struct coordinate_t
     {
-        inline point_t(int _x, int _y)
+        inline coordinate_t(int _x, int _y)
             : x(_x), y(_y)
         {}
 
-        int x;
-        int y;
+        size_t const x;
+        size_t const y;
     };
 
-    struct point_state
+    struct point_t
     {
-        inline point_state(point_t const& _pt,
-                           unit_type const& _state)
-            :point(_pt), state(_state)
+        inline point_t(coordinate_t const& _pt,
+                       point_state_t const& _state)
+            :position(_pt), state(_state)
         {}
 
-        inline point_state(int x, int y, unit_type const& _state)
-            :point(x, y), state(_state)
+        inline point_t(int x, int y,
+                       point_state_t const& _state)
+            :position(x, y), state(_state)
         {}
 
-        point_t const point;
-        unit_type state;
+        coordinate_t const position;
+        point_state_t state;
     };
 }
 
