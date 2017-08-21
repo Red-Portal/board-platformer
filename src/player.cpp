@@ -66,7 +66,7 @@ namespace board_platformer
             pt_state->set_unit_type(i.state.value);
             auto* pt = pt_state->mutable_point();
 
-            auto const& coord = i.point;
+            auto const& coord = i.position;
             pt->set_x(coord.x);
             pt->set_y(coord.y);
         }
@@ -74,12 +74,12 @@ namespace board_platformer
         return proto_board; 
     }
 
-    std::vector<point_state>
+    std::vector<point_t>
     player::
     deserialize_moves(proto_player_move const& moves) const
     {
         size_t size = moves.move_size();
-        std::vector<point_state> deserialized_moves;
+        std::vector<point_t> deserialized_moves;
 
         for(auto i = 0u; i < size; ++i)
         {
@@ -87,7 +87,7 @@ namespace board_platformer
             auto point = proto_move.point();
             auto unit_type = proto_move.unit_type();
 
-            auto move = point_state(point.x(), point.y(), unit_type);
+            auto move = point(point.x(), point.y(), unit_type);
 
             deserialized_moves.push_back(std::move(move));
         }
@@ -95,7 +95,7 @@ namespace board_platformer
         return deserialized_moves;
     }
 
-    std::tuple<std::vector<point_state>, duration_t>
+    std::tuple<std::vector<point_t>, duration_t>
     player::
     play_turn(game::game_board const& board,
               duration_t const& time_limit)

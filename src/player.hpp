@@ -25,7 +25,7 @@
 #include <boost/process/child.hpp>
 #include <grpc/grpc.h>
 
-#include <board_platformer/game.hpp>
+#include <custom_settings.hpp>
 #include <board_platformer/types.hpp>
 #include <board_platformer/detail/rpc_message.grpc.pb.h>
 
@@ -57,7 +57,7 @@ namespace board_platformer
         proto_player_move
         send_message(proto_board_state const& board) const;
 
-        std::vector<point_state>
+        std::vector<point_t>
         deserialize_moves(proto_player_move const& moves) const;
 
         proto_board_state
@@ -69,7 +69,7 @@ namespace board_platformer
                         address_t const& adress,
                         player_id_t const& player_id);
 
-        std::tuple<std::vector<point_state>, duration_t>
+        std::tuple<std::vector<point_t>, duration_t>
         play_turn(game::game_board const& board,
                   duration_t const& time_limit);
     };
