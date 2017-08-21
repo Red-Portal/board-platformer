@@ -41,11 +41,13 @@ namespace board_platformer
         std::queue<std::string> _log_queue;
         std::mutex _mtx;
         std::thread _log_sender;
+        std::condition_variable _consumer_wait_flag;
 
         std::string format_log(std::string const& sender,
                                std::string const& message) const;
 
-        void async_consume_log(std::queue<std::string>& _log_queue);
+        void async_consume_log(std::queue<std::string>& _log_queue,
+                               std::condition_variable& _wait_log);
 
         global_logger();
 

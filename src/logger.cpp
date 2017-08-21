@@ -24,7 +24,9 @@ namespace board_platformer
         :_log_stream(),
          _logger("board_platformer_logger", "10",
                  ps::std_in < _log_stream),
-         _log_sender(&global_logger::async_consume_log, _log_queue)
+         _log_sender(&global_logger::async_consume_log,
+                     _log_queue,
+                     _wait)
     {}
 
     global_logger&
@@ -49,17 +51,19 @@ namespace board_platformer
 
     void
     global_logger::
-    async_consume_log(std::queue<std::string>& _log_queue) 
+    async_consume_log(std::queue<std::string>& _log_queue,
+                      std::condition_variable& _wait_log) 
     {
         while(true)
         {
-            if(_log_queue.size() != 0)
-            {
-                auto lck = std::unique_lock<std::mutex>(_mtx);
-                auto log = _log_queue.front();
-                _log_stream << log;
-                std::cout << log << std::endl;
-            }
+            auto lck = std::unique_lock<std::mutex>(_mtx);
+
+            while(_log_queue.empty())
+                _wait_log.wait(lck);
+
+            auto log = _log_queue.front();
+            _log_stream << log;
+            std::cout << log << std::endl;
         }
     }
 
@@ -71,7 +75,5 @@ namespace board_platformer
 
         auto lck = std::unique_lock<std::mutex>(_mtx);
         _log_queue.push(std::move(log_line));
-        // _log_stream << log_line;
-        // std::cout << log_line << std::endl;
     }
 }
