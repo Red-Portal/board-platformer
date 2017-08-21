@@ -31,7 +31,7 @@ int main()
     // main_form.show();
     // nana::exec();
     std::cout << "running!" << std::endl;
-    bp::global_logger::get_singleton().add_log("me", "hi there!");
+    bp::global_logger::get_singl().add_log("me", "hi there!");
 
     return 0;
 }

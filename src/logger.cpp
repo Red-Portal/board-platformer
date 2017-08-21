@@ -20,21 +20,38 @@
 namespace board_platformer
 {
     global_logger::
-    global_logger()
+    global_logger(bool use_file_log)
         :_log_stream(),
          _logger("board_platformer_logger", "10",
                  ps::std_in < _log_stream),
          _log_sender(&global_logger::async_consume_log,
                      _log_queue,
                      _consumer_wait_flag)
+    {
+        (void)use_file_log;
+        add_log("global_logger",
+                "initializing global_logger with file log output");
+    }
+
+    global_logger::
+    global_logger()
+        :_log_stream(),
+         _logger(),
+         _log_sender()
     {}
 
     global_logger&
     global_logger::
-    get_singleton()
+    get_singl(bool use_file_log)
     {
-        static global_logger _instance;
-        return _instance;
+        static std::unique_ptr<global_logger> _instance;
+
+        if(use_file_log && _instance == nullptr)
+            _instance = std::make_unique<global_logger>(true);
+        else
+            _instance = std::make_unique<global_logger>();
+
+        return *_instance;
     }
 
     std::string
@@ -51,8 +68,15 @@ namespace board_platformer
 
     void
     global_logger::
+    set_log_options(bool cout)
+    {
+        _console_out = cout;
+    }
+
+    void
+    global_logger::
     async_consume_log(std::queue<std::string>& _log_queue,
-                      std::condition_variable& _wait_log) 
+                      std::condition_variable& _wait_log)
     {
         while(true)
         {
@@ -62,8 +86,9 @@ namespace board_platformer
                 _wait_log.wait(lck);
 
             auto log = _log_queue.front();
-            _log_stream << log;
-            std::cout << log << std::endl;
+
+            if(_console_out)
+                _log_stream << log;
         }
     }
 
@@ -74,6 +99,7 @@ namespace board_platformer
         auto log_line = format_log(sender, message);
 
         auto lck = std::unique_lock<std::mutex>(_mtx);
+        std::cout << log_line << std::endl;
         _log_queue.push(std::move(log_line));
     }
 }

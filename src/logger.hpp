@@ -38,10 +38,12 @@ namespace board_platformer
     private:
         ps::opstream _log_stream;
         ps::child _logger;
+        std::thread _log_sender;
         std::queue<std::string> _log_queue;
         std::mutex _mtx;
-        std::thread _log_sender;
         std::condition_variable _consumer_wait_flag;
+
+        static bool _console_out;
 
         std::string format_log(std::string const& sender,
                                std::string const& message) const;
@@ -50,9 +52,14 @@ namespace board_platformer
                                std::condition_variable& _wait_log);
 
         global_logger();
+        
+        // using this overload
+        // means using file log stream
+        global_logger(bool use_file_log);
 
     public:
-        static global_logger& get_singleton();
+        static global_logger& get_singl(bool use_file_log = false);
+        static void set_log_options(bool cout);
 
         void add_log(std::string const& sender,
                      std::string const& message);
