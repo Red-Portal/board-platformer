@@ -29,7 +29,7 @@ namespace game
     class game_board_impl
     {
     private:
-        std::array<bp::point_state, tX * tY> _board;
+        std::array<bp::point_t, tX * tY> _board;
 
         void initialize_board(game_board_impl& board);
 
@@ -40,27 +40,27 @@ namespace game
             initialize_board(_board);
         } 
 
-        typename std::array<bp::point_state, tX * tY>::iterator
+        typename std::array<bp::point_t, tX * tY>::iterator
         begin() noexcept
         { return _board.begin(); }
 
-        typename std::array<bp::point_state, tX * tY>::iterator
+        typename std::array<bp::point_t, tX * tY>::iterator
         end() noexcept
         { return _board.begin(); }
 
-        typename std::array<bp::point_state, tX * tY>::const_iterator
+        typename std::array<bp::point_t, tX * tY>::const_iterator
         begin() const noexcept
         { return _board.begin(); }
 
-        typename std::array<bp::point_state, tX * tY>::const_iterator
+        typename std::array<bp::point_t, tX * tY>::const_iterator
         end() const noexcept
         { return _board.begin(); }
 
-        typename std::array<bp::point_state, tX * tY>::const_iterator
+        typename std::array<bp::point_t, tX * tY>::const_iterator
         cbegin() noexcept
         { return _board.cbegin(); }
 
-        typename std::array<bp::point_state, tX * tY>::const_iterator
+        typename std::array<bp::point_t, tX * tY>::const_iterator
         cend() noexcept
         { return _board.cbegin(); }
 
@@ -68,17 +68,25 @@ namespace game
         size() const noexcept
         { return _board.size(); }
 
-        inline bp::unit_type
+        inline bp::point_state_t
         operator()(size_t x, size_t y) const
         {
             return _board[tX * x + y].state;
         }
 
-        inline bp::unit_type&
+        inline bp::point_state_t&
         operator()(size_t x, size_t y)
         {
             return _board[tX * x + y].state;
         }
+
+        inline size_t
+        get_column_size() const
+        { return tX; }
+
+        inline size_t
+        get_row_size() const
+        { return tY; }
     };
 }
 
