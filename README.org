@@ -3,13 +3,33 @@ A Board Game AI Developing Platform
 
 ** Introduction
   Board Platformer is a generic board game AI developing platform.
-  It supports manually playing agains provided AI process.
-  And also automatic play for gathering stacks of game data.
+  In order to build a board game AI developing platform for a specific board game,
+  you have fork the project and implement it.
+
+** Features (Plan)
+  These are future plans for the finished version.
+  It is not guarenteed that these features will make it onto release.
+
+  
+1. Play against a game AI 
+   The framework provides a library for developing a game AI.
+   Compiling the game AI and linking it with the library will result in a player program.
+   You can play against the provided player program on Board Platformer either on CLI or GUI.
+  
+2. Make an AI play against AI
+   Providing two player programs to Board Platformer will result in two AIs playing against each other.
+  
+3. Automatically gather gameplay data (of AIs)
+   In automatic play mode, Board Platformer will automatically make two play against each other.
+   For performance, you can enable multithreaded mode in order to play multiple game in parallel.
+   Detailed gameplay datas will be saved in JSON format so you can use this for training machine learning models.
+   Machine learning Methods such as reinforced learning require a ton of data!
+
   
 ** Current State
   Board Platformer is currently under very early development.
   The project is not even close to partially done, Everything is subject to change.
-  Contributers are very welcome, However ask me first before jumping in.
+  Contributers are very welcome. However ask me first before jumping in.
 
   My personal development environment is Linux.
   Thus no support for different platforms are available.
@@ -18,11 +38,14 @@ A Board Game AI Developing Platform
   (this alone will be a create contribution!)
   
 ** Development TODO list
-   - [X] Logging system
-   - [ ] Game server
+   - [X] Logging System
+   - [X] Platform Interface
+   - [ ] Core System
+   - [ ] Player Program Library
    - [ ] GUI
-   - [ ] Automatic Play 
-   - [ ] Example Implementation
+   - [ ] CLI
+   - [ ] Automatic Play Mode
+   - [ ] Example Implementation (In Go, Connect6, Connect5, Chess, etc..)
       
 ** Dependencies
    - [[https://grpc.io][grpc]]
@@ -32,6 +55,7 @@ A Board Game AI Developing Platform
      + [[http://www.boost.org/doc/libs/1_64_0/libs/filesystem/doc/index.htm][filesystem]]
      + [[http://www.boost.org/doc/libs/1_64_0/libs/filesystem/doc/index.htm][system]]
      + [[http://www.boost.org/doc/libs/1_64_0/doc/html/process.html][process]]
+     + [[http://www.boost.org/doc/libs/1_64_0/doc/html/boost_asio.html][asio(planned)]]
    - threads
    - standard filesystem
      

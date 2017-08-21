@@ -5,10 +5,11 @@
 <li><a href="#sec-1">1. Board Platformer</a>
 <ul>
 <li><a href="#sec-1-1">1.1. Introduction</a></li>
-<li><a href="#sec-1-2">1.2. Current State</a></li>
-<li><a href="#sec-1-3">1.3. Development TODO list</a></li>
-<li><a href="#sec-1-4">1.4. Dependencies</a></li>
-<li><a href="#sec-1-5">1.5. License</a></li>
+<li><a href="#sec-1-2">1.2. Features (Plan)</a></li>
+<li><a href="#sec-1-3">1.3. Current State</a></li>
+<li><a href="#sec-1-4">1.4. Development TODO list</a></li>
+<li><a href="#sec-1-5">1.5. Dependencies</a></li>
+<li><a href="#sec-1-6">1.6. License</a></li>
 </ul>
 </li>
 </ul>
@@ -22,14 +23,34 @@ A Board Game AI Developing Platform
 ## Introduction<a id="sec-1-1" name="sec-1-1"></a>
 
 Board Platformer is a generic board game AI developing platform.
-It supports manually playing agains provided AI process.
-And also automatic play for gathering stacks of game data.
+In order to build a board game AI developing platform for a specific board game,
+you have fork the project and implement it.
 
-## Current State<a id="sec-1-2" name="sec-1-2"></a>
+## Features (Plan)<a id="sec-1-2" name="sec-1-2"></a>
+
+These are future plans for the finished version.
+It is not guarenteed that these features will make it onto release.
+
+
+1.  Play against a game AI 
+    The framework provides a library for developing a game AI.
+    Compiling the game AI and linking it with the library will result in a player program.
+    You can play against the provided player program on Board Platformer either on CLI or GUI.
+
+2.  Make an AI play against AI
+    Providing two player programs to Board Platformer will result in two AIs playing against each other.
+
+3.  Automatically gather gameplay data (of AIs)
+    In automatic play mode, Board Platformer will automatically make two play against each other.
+    For performance, you can enable multithreaded mode in order to play multiple game in parallel.
+    Detailed gameplay datas will be saved in JSON format so you can use this for training machine learning models.
+    Machine learning Methods such as reinforced learning require a ton of data!
+
+## Current State<a id="sec-1-3" name="sec-1-3"></a>
 
 Board Platformer is currently under very early development.
 The project is not even close to partially done, Everything is subject to change.
-Contributers are very welcome, However ask me first before jumping in.
+Contributers are very welcome. However ask me first before jumping in.
 
 My personal development environment is Linux.
 Thus no support for different platforms are available.
@@ -37,15 +58,18 @@ If your willing to contribute from a different platform,
 you'll first have to successfully create a build system of your own.
 (this alone will be a create contribution!)
 
-## Development TODO list<a id="sec-1-3" name="sec-1-3"></a>
+## Development TODO list<a id="sec-1-4" name="sec-1-4"></a>
 
--   [X] Logging system
--   [ ] Game server
+-   [X] Logging System
+-   [X] Platform Interface
+-   [ ] Core System
+-   [ ] Player Program Library
 -   [ ] GUI
--   [ ] Automatic Play
--   [ ] Example Implementation
+-   [ ] CLI
+-   [ ] Automatic Play Mode
+-   [ ] Example Implementation (In Go, Connect6, Connect5, Chess, etc..)
 
-## Dependencies<a id="sec-1-4" name="sec-1-4"></a>
+## Dependencies<a id="sec-1-5" name="sec-1-5"></a>
 
 -   [grpc](https://grpc.io)
 -   [protobuf](https://developers.google.com/protocol-buffers/)
@@ -54,10 +78,11 @@ you'll first have to successfully create a build system of your own.
     -   [filesystem](http://www.boost.org/doc/libs/1_64_0/libs/filesystem/doc/index.htm)
     -   [system](http://www.boost.org/doc/libs/1_64_0/libs/filesystem/doc/index.htm)
     -   [process](http://www.boost.org/doc/libs/1_64_0/doc/html/process.html)
+    -   [asio(planned)](http://www.boost.org/doc/libs/1_64_0/doc/html/boost_asio.html)
 -   threads
 -   standard filesystem
 
-## License<a id="sec-1-5" name="sec-1-5"></a>
+## License<a id="sec-1-6" name="sec-1-6"></a>
 
 Board Platformer. A Board Game AI Developing Platform                     
 Copyright (C) 2017  Red-Portal                                            
