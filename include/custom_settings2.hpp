@@ -17,6 +17,8 @@
 #ifndef _CUSTOM_SETTINGS_2_HPP
 #define _CUSTOM_SETTINGS_2_HPP
 
+#include <board_platformer/detail/game_board.hpp>
+
 namespace game
 {
     typedef game_board_impl<19, 19> game_board;

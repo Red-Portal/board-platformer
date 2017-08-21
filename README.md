@@ -5,7 +5,7 @@
 <li><a href="#sec-1">1. Board Platformer</a>
 <ul>
 <li><a href="#sec-1-1">1.1. Introduction</a></li>
-<li><a href="#sec-1-2">1.2. Features (Plan)</a></li>
+<li><a href="#sec-1-2">1.2. Features (Plans)</a></li>
 <li><a href="#sec-1-3">1.3. Current State</a></li>
 <li><a href="#sec-1-4">1.4. Development TODO list</a></li>
 <li><a href="#sec-1-5">1.5. Dependencies</a></li>
@@ -26,21 +26,21 @@ Board Platformer is a generic board game AI developing platform.
 In order to build a board game AI developing platform for a specific board game,
 you have fork the project and implement it.
 
-## Features (Plan)<a id="sec-1-2" name="sec-1-2"></a>
+## Features (Plans)<a id="sec-1-2" name="sec-1-2"></a>
 
 These are future plans for the finished version.
 It is not guarenteed that these features will make it onto release.
 
 
-1.  Play against a game AI 
+1.  **Play against a game AI**: 
     The framework provides a library for developing a game AI.
     Compiling the game AI and linking it with the library will result in a player program.
     You can play against the provided player program on Board Platformer either on CLI or GUI.
 
-2.  Make an AI play against AI
+2.  **Make an AI play against an AI**: 
     Providing two player programs to Board Platformer will result in two AIs playing against each other.
 
-3.  Automatically gather gameplay data (of AIs)
+3.  **Automatically gather gameplay data (of AIs)**: 
     In automatic play mode, Board Platformer will automatically make two play against each other.
     For performance, you can enable multithreaded mode in order to play multiple game in parallel.
     Detailed gameplay datas will be saved in JSON format so you can use this for training machine learning models.

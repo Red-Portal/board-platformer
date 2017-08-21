@@ -44,77 +44,28 @@ namespace game
 
     size_t const number_of_player = 2;
 
-    class game : public bp::game_base
+    class game_settings : public bp::game_base
     {
-        bp::player_id_t
-        play_next_turn(bp::player_id_t const& previous_turn)
+    private:
+        check_line(game_board const& board)
         {
-            if(previoulue == 0)
+            
+        }
+
+    public:
+        virtual bp::player_id_t
+        play_next_turn(bp::player_id_t const& previous_turn) final
+        {
+            if(previous_turn == 0)
                 return {1};
             else
                 return {0};
         }
 
-        std::optional<bp::player_id_t>
-        check_winner(game_board const& current_board,
-                     bp::point_t const& last_move)
+        virtual std::optional<bp::player_id_t>
+        check_winner(game_board const& current_board) final
         {
-            auto const x_size = current_board.get_column_size();
-            auto const y_size = current_board.get_row_size();
-
-            auto move_pos_x = last_move.position.x;
-            auto move_pos_y = last_move.position.y;
-            auto move_unit = last_move.state;
-
-            {
-                auto begin =  move_pos_x < 6 ? 0 : move_pos_x - 6;
-                for(auto x = begin; x < begin + 6; ++x)
-                {
-                    for(auto i = x; i < 6; ++i)
-                    {
-                        if(current_board(i, move_pos_y) != move_unit)
-                            goto out1;
-                    }
-
-                    return {move_unit.value};
-                }
-            }
-        out1:
             
-            {
-                auto begin =  move_pos_y < 6 ? 0 : move_pos_y - 6;
-                for(auto y = begin; y < begin + 6; ++y)
-                {
-                    for(auto i = y; i < 6; ++i)
-                    {
-                        if(current_board(move_pos_x, i) != move_unit)
-                            goto out2;
-                    }
-
-                    return {move_unit.value};
-                }
-            }
-        out2:
-
-            {
-                using iter = std::pair<size_t, size_t>;
-
-                auto begin_x =  move_pos_x < 6 ? 0 : move_pos_x - 6;
-                auto begin_y =  move_pos_y < 6 ? 0 : move_pos_y - 6;
-                auto begin = iter(begin_x, begin_y); 
-                for(auto& i = begin; i < + 6; ++x)
-                {
-                    for(auto i = x; i < 6; ++i)
-                    {
-                        if(current_board(i, move_pos_y) != move_unit)
-                            goto out3;
-                    }
-
-                    return {move_unit.value};
-                }
-            }
-        out3:
-            ;
         }
     };
 }
