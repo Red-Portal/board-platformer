@@ -23,8 +23,8 @@ A Board Game AI Developing Platform
 ## Introduction<a id="sec-1-1" name="sec-1-1"></a>
 
 Board Platformer is a generic board game AI developing platform.
-In order to build a board game AI developing platform for a specific board game,
-you have fork the project and implement it.
+Using this framework, you can implement a board game AI developing platform for any board game.
+Refer to the Features below in order to see what this framework offers.
 
 ## Features (Plans)<a id="sec-1-2" name="sec-1-2"></a>
 
