@@ -24,7 +24,6 @@
      ${SOURCE_DIR}/main.cpp
      ${SOURCE_DIR}/form.cpp
      ${SOURCE_DIR}/logger.cpp
-     ${SOURCE_DIR}/server.cpp
      ${SOURCE_DIR}/game.cpp
      ${SOURCE_DIR}/rpc_message.pb.cc
      ${SOURCE_DIR}/rpc_message.grpc.pb.cc
@@ -127,10 +126,6 @@
 
  ## Thread library dependency
  find_package(Threads REQUIRED)
-
- target_link_libraries(board_platformer
-     PRIVATE
-     ${CMAKE_THREAD_LIBS_INIT})
 
  target_link_libraries(board_platformer_logger
      PRIVATE

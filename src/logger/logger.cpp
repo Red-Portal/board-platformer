@@ -32,14 +32,12 @@ namespace board_platformer
     {
         while(true)
         {
-            std::this_thread::sleep_for(chrono::seconds(1));
-
+            auto last_time = last_input_time.get_last_input_time();
             auto current_time_point = clock::now();
-            auto duration
-                = current_time_point
-                - last_input_time.get_last_input_time();
+            std::this_thread::sleep_for(
+                (last_time + _timeout) - current_time_point);
 
-            if(duration > _timeout)
+            if(last_time == last_input_time.get_last_input_time())
                 exit(1);
         }
     }
@@ -102,6 +100,7 @@ namespace board_platformer
 
             auto time_p = clock::now();
             _last_input_time.set_last_input_time(time_p);
+
             auto time_info = format_time_point(time_p);
 
             fout << time_info << "\n"
