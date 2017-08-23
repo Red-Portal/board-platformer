@@ -87,7 +87,7 @@ namespace board_platformer
             auto unit_type = proto_move.unit_type();
 
             auto move = point_t(proto_point.x(),
-                                proto_pointy(),
+                                proto_point.y(),
                                 unit_type);
 
             deserialized_moves.push_back(std::move(move));
