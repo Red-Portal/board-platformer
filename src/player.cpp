@@ -66,11 +66,10 @@ namespace board_platformer
             pt_state->set_unit_type(i.state.value);
             auto* pt = pt_state->mutable_point();
 
-            auto const& coord = i.position;
-            pt->set_x(coord.x);
-            pt->set_y(coord.y);
+            auto const& coord = i.get_position();
+            pt->set_x(coord.get_x());
+            pt->set_y(coord.get_y());
         }
-
         return proto_board; 
     }
 
@@ -84,10 +83,12 @@ namespace board_platformer
         for(auto i = 0u; i < size; ++i)
         {
             auto proto_move = moves.move(i);
-            auto point = proto_move.point();
+            auto proto_point = proto_move.point();
             auto unit_type = proto_move.unit_type();
 
-            auto move = point(point.x(), point.y(), unit_type);
+            auto move = point_t(proto_point.x(),
+                                proto_pointy(),
+                                unit_type);
 
             deserialized_moves.push_back(std::move(move));
         }
@@ -106,7 +107,7 @@ namespace board_platformer
             serialize_board(board, std::move(proto_board_blank));
         proto_board.set_time_limit(time_limit.count());
 
-        global_logger::get_singleton()
+        global_logger::get_singl()
             .add_log("player " + std::to_string(_player_id.value),
                      "waiting for player move..");
 
@@ -114,7 +115,7 @@ namespace board_platformer
         auto player_move = send_message(proto_board);
         auto end = clock::now();
 
-        global_logger::get_singleton()
+        global_logger::get_singl()
             .add_log("player " + std::to_string(_player_id.value),
                      "received player move");
 
@@ -123,5 +124,12 @@ namespace board_platformer
             chrono::duration_cast<chrono::milliseconds>(end - start);
 
         return {moves, duration}; 
+    }
+
+    player_id_t const&
+    player::
+    get_playerid() const noexcept
+    {
+        return _player_id;
     }
 }

@@ -72,6 +72,8 @@ namespace board_platformer
         std::tuple<std::vector<point_t>, duration_t>
         play_turn(game::game_board const& board,
                   duration_t const& time_limit);
+
+        player_id_t const& get_playerid() const noexcept;
     };
 }
 
