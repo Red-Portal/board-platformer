@@ -5,7 +5,7 @@
 <li><a href="#sec-1">1. Board Platformer</a>
 <ul>
 <li><a href="#sec-1-1">1.1. Introduction</a></li>
-<li><a href="#sec-1-2">1.2. Features (Plans)</a></li>
+<li><a href="#sec-1-2">1.2. Features (Planned)</a></li>
 <li><a href="#sec-1-3">1.3. Current State</a></li>
 <li><a href="#sec-1-4">1.4. Development TODO list</a></li>
 <li><a href="#sec-1-5">1.5. Dependencies</a></li>
@@ -26,25 +26,28 @@ Board Platformer is a generic board game AI developing platform.
 Using this framework, you can implement a board game AI developing platform for any board game.
 Refer to the Features below in order to see what this framework offers.
 
-## Features (Plans)<a id="sec-1-2" name="sec-1-2"></a>
+## Features (Planned)<a id="sec-1-2" name="sec-1-2"></a>
 
 These are future plans for the finished version.
 It is not guarenteed that these features will make it onto release.
 
 
 1.  **Play against a game AI**: 
-    The framework provides a library for developing a game AI.
-    Compiling the game AI and linking it with the library will result in a player program.
-    You can play against the provided player program on Board Platformer either on CLI or GUI.
+    The framework provides a library for developing your own game AI algorithm.
+    Using the provided library, compiling your AI algorithm will result in a player program.
+    You can play against your player program via Board Platformer either on CLI or GUI.
+    Or others can give their own player program so you can play against it.
 
 2.  **Make an AI play against an AI**: 
-    Providing two player programs to Board Platformer will result in two AIs playing against each other.
+    By providing two player programs, Board Platformer can make two AIs play against each other.
+    Either on GUI or CLI, you can spectate the game.
+    Using this feature it is possible to match your game AI algorithms and others' game AI algorithm.
 
 3.  **Automatically gather gameplay data (of AIs)**: 
-    In automatic play mode, Board Platformer will automatically make two play against each other.
-    For performance, you can enable multithreaded mode in order to play multiple game in parallel.
+    In automatic play mode, Board Platformer will make two player programs play against each other multiple times.
     Detailed gameplay datas will be saved in JSON format so you can use this for training machine learning models.
     Machine learning Methods such as reinforced learning require a ton of data!
+    For performance, you can enable multithreaded mode in order to play multiple games in parallel.
 
 ## Current State<a id="sec-1-3" name="sec-1-3"></a>
 
