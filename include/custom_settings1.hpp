@@ -18,43 +18,32 @@
 #define _CUSTOM_SETTINGS_1_HPP_
 
 #include <array>
+#include <algorithm>
 
 #include <board_platformer/detail/game_board.hpp>
 #include <board_platformer/detail/game_base.hpp>
 
+#include <../src/player.hpp> // should do something about this
+
+namespace bp = board_platformer;
+
 namespace game
 {
-    namespace bp = board_platformer;
-
-    template<size_t tX, size_t tY>
-    void
-    game_board_impl<tX, tY>::
-    initialize_board(game_board_impl& board)
-    {
-        for(size_t i = 0; i < tX; ++i)
-        {
-            for(size_t j = 0; j < tY; ++j)
-            {
-                board(i, j) = bp::point_state_t(0);
-            }
-        }
-    }
-
-    typedef game_board_impl<19, 19> game_board;
+    typedef bp::game_board_impl<19, 19> game_board;
 
     size_t const number_of_player = 2;
 
     class game_settings : public bp::game_base
     {
     private:
+        std::optional<bp::player_id_t>
         check_line(game_board const& board)
         {
-            
         }
 
     public:
         virtual bp::player_id_t
-        play_next_turn(bp::player_id_t const& previous_turn) final
+        play_next_turn(bp::player_id_t const& previous_turn) override final
         {
             if(previous_turn == 0)
                 return {1};
@@ -62,8 +51,24 @@ namespace game
                 return {0};
         }
 
+        virtual bp::player_id_t
+        initialize_round(
+            game_board& board,
+            std::vector<bp::player> const& players) override final
+        {
+            (void)players; // suppressing error message
+            
+            for(size_t i = 0; i < board.row_size(); ++i)
+            {
+                for(size_t j = 0; j < board.col_size(); ++j)
+                    board(i, j) = bp::point_state_t(0);
+            }
+
+            return bp::player_id_t(0);
+        }
+
         virtual std::optional<bp::player_id_t>
-        check_winner(game_board const& current_board) final
+        check_winner(game_board const& current_board) override final
         {
             
         }
