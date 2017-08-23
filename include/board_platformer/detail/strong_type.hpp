@@ -33,6 +33,8 @@ namespace board_platformer
     template<typename T, typename Type>
     struct strong_type
     {
+        inline strong_type() = default;
+
         inline strong_type(T _val)
             :value(_val)
         {};
@@ -44,16 +46,32 @@ namespace board_platformer
         }
 
         inline bool
-        operator==(strong_type<T, Type> const& _val) const noexcept
+        operator==(strong_type<T, Type> const& _val)
+            const noexcept
         {
             return _val.value == this->value;
         }
 
         inline bool
-        operator!=(strong_type<T, Type> const& _val) const noexcept
+        operator!=(strong_type<T, Type> const& _val)
+            const noexcept
         {
             return _val.value != this->value;
         }
+
+        inline strong_type<T, Type>&
+        operator=(strong_type<T, Type> const& other) = default;
+
+        inline strong_type<T, Type>&
+        operator=(strong_type<T, Type>&& other)
+            noexcept = default;
+
+        inline
+        strong_type(strong_type<T, Type>&& other)
+            noexcept = default;
+
+        inline
+        strong_type(strong_type<T, Type> const& other) = default;
 
         T value;
     };

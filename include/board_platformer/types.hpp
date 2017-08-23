@@ -27,29 +27,66 @@ namespace board_platformer
     STRONG_TYPE(uint16_t, unit_type) point_state_t;
     STRONG_TYPE(uint32_t, player_id_type) player_id_t;
 
-    struct coordinate_t
+    class coordinate_t
     {
-        inline coordinate_t(int _x, int _y)
+    private:
+        size_t x;
+        size_t y;
+
+    public:
+        template<typename T,
+                 typename = typename
+                 std::enable_if<std::is_integral<T>::value, T>::type>
+        inline coordinate_t(T _x, T _y)
             : x(_x), y(_y)
         {}
 
-        size_t const x;
-        size_t const y;
+        inline coordinate_t() = default;
+        inline coordinate_t(coordinate_t const& other) = default;
+        inline coordinate_t(coordinate_t&& other) noexcept = default;
+
+        inline coordinate_t&
+        operator=(coordinate_t const& other) = default;
+        inline coordinate_t&
+        operator=(coordinate_t&& other) noexcept = default;
+
+        size_t get_x() const noexcept
+        { return x; }
+        size_t get_y() const noexcept
+        { return y; }
     };
 
-    struct point_t
+    class point_t
     {
-        inline point_t(coordinate_t const& _pt,
-                       point_state_t const& _state)
-            :position(_pt), state(_state)
-        {}
+    private:
+        coordinate_t _position;
 
-        inline point_t(int x, int y,
-                       point_state_t const& _state)
-            :position(x, y), state(_state)
-        {}
+    public:
+        inline point_t() = default;
 
-        coordinate_t const position;
+        inline point_t(coordinate_t const& pt,
+                       point_state_t const& _state)
+            :_position(pt), state(_state) {}
+
+        template<typename T,
+                 typename = typename
+                 std::enable_if<std::is_integral<T>::value, T>::type>
+        inline point_t(T x, T y,
+                       point_state_t const& _state)
+            :_position(x, y), state(_state) {}
+
+        inline point_t(point_t const& other) = default;
+        inline point_t(point_t&& other) noexcept = default;
+        
+        inline point_t&
+        operator=(point_t const& other) = default;
+        inline point_t&
+        operator=(point_t&& other) noexcept = default;
+
+        inline coordinate_t const&
+        get_position() const noexcept
+        { return _position; }
+
         point_state_t state;
     };
 }
