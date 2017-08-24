@@ -19,6 +19,7 @@
 
 #include <array>
 #include <algorithm>
+#include <chrono> 
 
 #include <board_platformer/detail/game_board.hpp>
 #include <board_platformer/detail/game_base.hpp>
@@ -26,6 +27,7 @@
 #include <../src/player.hpp> // should do something about this
 
 namespace bp = board_platformer;
+namespace chrono = std::chrono;
 
 namespace game
 {
@@ -43,7 +45,8 @@ namespace game
 
     public:
         virtual bp::player_id_t
-        play_next_turn(bp::player_id_t const& previous_turn) override final
+        play_next_turn(
+            bp::player_id_t const& previous_turn) override final
         {
             if(previous_turn == 0)
                 return {1};
@@ -51,28 +54,38 @@ namespace game
                 return {0};
         }
 
-        virtual bp::player_id_t
-        initialize_round(
-            game_board& board,
-            std::vector<bp::player> const& players) override final
-        {
-            (void)players; // suppressing error message
-            
-            for(size_t i = 0; i < board.row_size(); ++i)
+            virtual bp::player_id_t
+            initialize_round(
+                game_board& board,
+                std::vector<bp::player> const& players) override final
             {
-                for(size_t j = 0; j < board.col_size(); ++j)
-                    board(i, j) = bp::point_state_t(0);
+                (void)players; // suppressing error message
+            
+                for(size_t i = 0; i < board.row_size(); ++i)
+                {
+                    for(size_t j = 0; j < board.col_size(); ++j)
+                        board(i, j) = bp::point_state_t(0);
+                }
+
+                return bp::player_id_t(0);
             }
 
-            return bp::player_id_t(0);
-        }
+            virtual bool
+            is_move_valid(
+                size_t turn_num,
+                game_board const& board,
+                std::vector<bp::point_t> const& moves,
+                chrono::milliseconds const& spend_time) override final
+            {
+                
+            }
 
-        virtual std::optional<bp::player_id_t>
-        check_winner(game_board const& current_board) override final
-        {
+            virtual std::optional<bp::player_id_t>
+            check_winner(game_board const& current_board) override final
+            {
             
-        }
-    };
-}
+            }
+        };
+    }
 
 #endif
