@@ -44,7 +44,7 @@ namespace board_platformer
     using proto_player_move = player_move;
     using proto_board_state = board_state;
     using clock = chrono::steady_clock;
-    using duration_t = chrono::duration<int64_t,std::milli>;
+    using duration_t = chrono::milliseconds;
 
     class player
     {

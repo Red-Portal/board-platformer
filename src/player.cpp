@@ -102,10 +102,12 @@ namespace board_platformer
               duration_t const& time_limit)
     {
         auto proto_board_blank = proto_board_state();
-
         auto proto_board =
             serialize_board(board, std::move(proto_board_blank));
-        proto_board.set_time_limit(time_limit.count());
+        auto time_limit_s =
+            chrono::duration_cast<chrono::seconds>(time_limit);
+
+        proto_board.set_time_limit(time_limit_s.count());
 
         global_logger::get_singl()
             .add_log("player " + std::to_string(_player_id.value),
@@ -120,10 +122,11 @@ namespace board_platformer
                      "received player move");
 
         auto moves = deserialize_moves(std::move(player_move));
-        auto duration =
-            chrono::duration_cast<chrono::milliseconds>(end - start);
+        auto duration = end - start;
+        auto dur =
+            chrono::duration_cast<chrono::milliseconds>(duration);
 
-        return {moves, duration}; 
+        return {moves, dur}; 
     }
 
     player_id_t const&
