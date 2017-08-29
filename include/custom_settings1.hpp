@@ -71,7 +71,7 @@ namespace game
             }
 
             virtual bool
-            is_move_valid(
+            is_invalid_move(
                 size_t turn_num,
                 game_board const& board,
                 std::vector<bp::point_t> const& moves,
