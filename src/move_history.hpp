@@ -2,6 +2,7 @@
 #define _MOVE_HISTORY_HPP_
 
 #include <vector>
+#include <optional>
 #include <chrono>
 
 #include <board_platformer/types.hpp>
@@ -17,6 +18,8 @@ namespace board_platformer
         size_t turn_number;
         chrono::milliseconds move_time;
         player_id_t next_turn;
+        player_score_t score;
+        std::optional<player_id_t> maybe_winner;
     };
 }
 

@@ -26,6 +26,7 @@ namespace board_platformer
 {
     STRONG_TYPE(uint16_t, unit_type) point_state_t;
     STRONG_TYPE(uint32_t, player_id_type) player_id_t;
+    STRONG_TYPE(int64_t, player_score_type) player_score_t;
 
     class coordinate_t
     {
