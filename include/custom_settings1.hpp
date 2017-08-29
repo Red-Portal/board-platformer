@@ -45,47 +45,46 @@ namespace game
 
     public:
         virtual bp::player_id_t
-        play_next_turn(
-            bp::player_id_t const& previous_turn) override final
+        get_next_turn_id(
+            bp::game_status_t const& game_state) const override 
         {
-            if(previous_turn == 0)
+            auto previous_turn = game_state.previous_turn;
+            if(previous_turn.value == 0)
                 return {1};
             else
                 return {0};
         }
 
-            virtual bp::player_id_t
-            initialize_round(
-                game_board& board,
-                std::vector<bp::player> const& players) override final
-            {
-                (void)players; // suppressing error message
+        virtual bp::player_id_t
+        initialize_round(
+            game_board& board,
+            std::vector<bp::player> const& players) override
+        {
+            (void)players; // suppressing error message
             
-                for(size_t i = 0; i < board.row_size(); ++i)
-                {
-                    for(size_t j = 0; j < board.col_size(); ++j)
-                        board(i, j) = bp::point_state_t(0);
-                }
-
-                return bp::player_id_t(0);
+            for(size_t i = 0; i < board.row_size(); ++i)
+            {
+                for(size_t j = 0; j < board.col_size(); ++j)
+                    board(i, j) = bp::point_state_t(0);
             }
 
-            virtual bool
-            is_invalid_move(
-                size_t turn_num,
-                game_board const& board,
-                std::vector<bp::point_t> const& moves,
-                chrono::milliseconds const& spend_time) override final
-            {
+            return bp::player_id_t(0);
+        }
+
+        virtual std::optional<std::string>
+        is_invalid_move(
+            bp::game_status_t const& game_state) const override
+        {
                 
-            }
+        }
 
-            virtual std::optional<bp::player_id_t>
-            check_winner(game_board const& current_board) override final
-            {
+        virtual std::optional<bp::player_id_t>
+        check_winner(
+            bp::game_status_t const& game_state) const override
+        {
             
-            }
-        };
-    }
+        }
+    };
+}
 
 #endif
