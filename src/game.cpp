@@ -21,10 +21,10 @@
 namespace board_platformer
 {
     game::
-    game(size_t number_of_players, chrono::seconds const& time_count)
+    game(size_t number_of_players, chrono::seconds const& time_count,
+         std::unique_ptr<game_base>&& game_settings)
         :_players(),
-         _game_settings(
-             std::make_unique<game_base>(::game::game_settings())),
+         _game_settings(std::move(game_settings)),
          _game_board(),
          _time_limit(time_count),
          _turn_number(0)
@@ -61,7 +61,7 @@ namespace board_platformer
     next_turn(player_id_t const& current_turn)
     {
         ++_turn_number;
-        auto& first_player = *std::find_if(
+        auto& current_player = *std::find_if(
             _players.begin(),
             _players.end(),
             [&current_turn](player const& elem){
@@ -69,7 +69,7 @@ namespace board_platformer
             });
 
         auto [moves, move_time] =
-            first_player.play_turn(_game_board, _time_limit);
+            current_player.play_turn(_game_board, _time_limit);
 
         auto move_data = game_status_t(moves, current_turn,
                                        move_time, _turn_number);

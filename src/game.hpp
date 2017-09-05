@@ -27,8 +27,8 @@
 #include <board_platformer/types.hpp>
 #include <board_platformer/detail/rpc.hpp>
 #include <board_platformer/detail/game_board.hpp>
-#include <board_platformer/detail/game_base.hpp>
-#include <board_platformer/detail/game_status.hpp>
+#include <board_platformer/game_base.hpp>
+#include <board_platformer/game_status.hpp>
 
 #include <custom_settings.hpp>
 
@@ -58,7 +58,8 @@ namespace board_platformer
 
     public:
         explicit game(size_t number_of_players,
-                      chrono::seconds const& time_count);
+                      chrono::seconds const& time_count,
+                      std::unique_ptr<game_base>&& game_settings);
 
         player_id_t init_game();
 
