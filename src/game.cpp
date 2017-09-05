@@ -22,15 +22,42 @@ namespace board_platformer
 {
     game::
     game(size_t number_of_players, chrono::seconds const& time_count,
-         std::unique_ptr<game_base>&& game_settings)
+         std::unique_ptr<game_base>&& game_settings,
+         std::unique_ptr<game_base>&& ui)
         :_players(),
          _game_settings(std::move(game_settings)),
+         _ui_events(std::move(ui)),
          _game_board(),
          _time_limit(time_count),
          _turn_number(0)
          
     {
         _players.reserve(number_of_players);
+    }
+
+    void
+    game::
+    game_start()
+    {
+        game_loop();
+    }
+
+    void
+    game::
+    game_loop()
+    {
+        _ui_events->game_start();
+
+        while(true)
+        {
+            _ui_events->before_move();
+            
+            _ui_events->while_move();
+
+            _ui_events->after_move();
+        }
+
+        _ui_events->game_over();
     }
 
     void

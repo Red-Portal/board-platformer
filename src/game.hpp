@@ -28,6 +28,7 @@
 #include <board_platformer/detail/rpc.hpp>
 #include <board_platformer/detail/game_board.hpp>
 #include <board_platformer/game_base.hpp>
+#include <board_platformer/ui_events.hpp>
 #include <board_platformer/game_status.hpp>
 
 #include <custom_settings.hpp>
@@ -52,14 +53,13 @@ namespace board_platformer
     private:
         std::vector<player> _players;
         std::unique_ptr<game_base> _game_settings;
+        std::unique_ptr<game_base> _ui_events;
         ::game::game_board _game_board;
         chrono::seconds _time_limit;
         size_t _turn_number;
 
-    public:
-        explicit game(size_t number_of_players,
-                      chrono::seconds const& time_count,
-                      std::unique_ptr<game_base>&& game_settings);
+        void
+        game_loop(); 
 
         player_id_t init_game();
 
@@ -68,6 +68,14 @@ namespace board_platformer
 
         game_status_t
         next_turn(player_id_t const& current_turn);
+
+    public:
+        explicit game(size_t number_of_players,
+                      chrono::seconds const& time_count,
+                      std::unique_ptr<game_base>&& game_settings,
+                      std::unique_ptr<>&& ui);
+
+        void game_start();
     };
 }
 
