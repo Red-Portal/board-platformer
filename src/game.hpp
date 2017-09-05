@@ -18,29 +18,55 @@
 #define _GAME_MANAGER_HPP_
 
 #include <vector>
+#include <variant>
+#include <memory>
+#include <chrono>
+#include <vector>
+#include <functional>
 
 #include <board_platformer/types.hpp>
 #include <board_platformer/detail/rpc.hpp>
+#include <board_platformer/detail/game_board.hpp>
+#include <board_platformer/detail/game_base.hpp>
+#include <board_platformer/detail/game_status.hpp>
+
 #include <custom_settings.hpp>
 
 #include "player.hpp"
 
 namespace boost::process { class child; }
 
-namespace ps = boost::process;
-
 namespace board_platformer
 {
-    class game : public game::game
+    namespace chrono = std::chrono;
+    namespace ps = boost::process;
+
+    template<typename T>
+    using ref = std::reference_wrapper<T>;
+
+    using player_moves = std::vector<bp::point_t>;
+
+    class game
     {
+        using player_and_address = std::pair<ps::child, address_t>;
     private:
         std::vector<player> _players;
+        std::unique_ptr<game_base> _game_settings;
+        ::game::game_board _game_board;
+        chrono::seconds _time_limit;
+        size_t _turn_number;
 
     public:
-        explicit game(size_t number_of_players);
-        
-        void add_players(
-            std::vector<std::pair<ps::child, address_t>>&& players);
+        explicit game(size_t number_of_players,
+                      chrono::seconds const& time_count);
+
+        player_id_t init_game();
+
+        void
+        add_players(std::vector<player_and_address>&& players);
+
+        game_status_t
+        next_turn(player_id_t const& current_turn);
     };
 }
 

@@ -17,22 +17,23 @@ namespace board_platformer
     {
         inline game_status_t(player_moves const& _moves,
                              player_id_t const& _previous_turn,
-                             chrono::milliseconds const& move_time);
+                             chrono::milliseconds const& move_time,
+                             size_t turn_number);
         player_moves const& moves;
         player_id_t const& previous_turn;
         chrono::milliseconds const& move_time;
         size_t turn_number;
-        std::vector<player_score_t> scores;
-        std::optional<player_id_t> maybe_winner;
     };
 
     game_status_t::
     game_status_t(player_moves const& _moves,
                   player_id_t const& _previous_turn,
-                  chrono::milliseconds const& _move_time)
+                  chrono::milliseconds const& _move_time,
+                  size_t _turn_number)
         :moves(_moves),
          previous_turn(_previous_turn),
-         move_time(_move_time)
+         move_time(_move_time),
+         turn_number(_turn_number)
     {}
 }
 

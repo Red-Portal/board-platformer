@@ -14,21 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <algorithm>
+
 #include "game.hpp"
 
 namespace board_platformer
 {
     game::
-    game(size_t number_of_players)
-        :_players()
+    game(size_t number_of_players, chrono::seconds const& time_count)
+        :_players(),
+         _game_settings(
+             std::make_unique<game_base>(::game::game_settings())),
+         _game_board(),
+         _time_limit(time_count),
+         _turn_number(0)
+         
     {
         _players.reserve(number_of_players);
     }
 
     void
     game::
-    add_players(
-        std::vector<std::pair<ps::child, address_t>>&& players)
+    add_players(std::vector<player_and_address>&& players)
     {
         auto player_id = 0u;
         for(auto& i : players)
@@ -37,5 +44,35 @@ namespace board_platformer
                                   i.second,
                                   player_id++);
         }
+    }
+
+    player_id_t
+    game::
+    init_game()
+    {
+        auto first_turn_id =
+            _game_settings->initialize_round(_game_board, _players);
+
+        return {first_turn_id};
+    }
+
+    game_status_t
+    game::
+    next_turn(player_id_t const& current_turn)
+    {
+        ++_turn_number;
+        auto& first_player = *std::find_if(
+            _players.begin(),
+            _players.end(),
+            [&current_turn](player const& elem){
+                return elem.get_playerid() == current_turn;
+            });
+
+        auto [moves, move_time] =
+            first_player.play_turn(_game_board, _time_limit);
+
+        auto move_data = game_status_t(moves, current_turn,
+                                       move_time, _turn_number);
+        return move_data;
     }
 }
