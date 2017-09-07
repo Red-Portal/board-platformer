@@ -15,13 +15,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <algorithm>
+#include <atomic>
 
 #include "game.hpp"
 
 namespace board_platformer
 {
     game::
-    game(size_t number_of_players, chrono::seconds const& time_count,
+    game(size_t number_of_players,
+         chrono::milliseconds const& time_count,
          std::unique_ptr<game_base>&& game_settings,
          std::unique_ptr<game_base>&& ui)
         :_players(),
@@ -42,22 +44,11 @@ namespace board_platformer
         game_loop();
     }
 
-    void
+    
     game::
-    game_loop()
+    make_game_status(player_id_t const& turn) const
     {
-        _ui_events->game_start();
-
-        while(true)
-        {
-            _ui_events->before_move();
-            
-            _ui_events->while_move();
-
-            _ui_events->after_move();
-        }
-
-        _ui_events->game_over();
+        return game_status_t(_game_board,);
     }
 
     void
@@ -68,24 +59,24 @@ namespace board_platformer
         for(auto& i : players)
         {
             _players.emplace_back(std::move(i.first),
-                                  i.second,
+                                  std::move(i.second),
                                   player_id++);
         }
     }
 
     player_id_t
     game::
-    init_game()
+    init_game(::game::game_board const& board) const
     {
         auto first_turn_id =
-            _game_settings->initialize_round(_game_board, _players);
+            _game_settings->initialize_round(board, _players);
 
         return {first_turn_id};
     }
 
-    game_status_t
+    player_id_t
     game::
-    next_turn(player_id_t const& current_turn)
+    play_turn(player_id_t const& current_turn)
     {
         ++_turn_number;
         auto& current_player = *std::find_if(
@@ -98,8 +89,53 @@ namespace board_platformer
         auto [moves, move_time] =
             current_player.play_turn(_game_board, _time_limit);
 
-        auto move_data = game_status_t(moves, current_turn,
-                                       move_time, _turn_number);
-        return move_data;
+        auto game_status = game_status_t(moves,
+                                         current_turn,
+                                         move_time,
+                                         turn_number);
+
+        return game_status;
+    }
+
+    bool
+    process_move(game_status_t const& player_move_data) const
+    {
+        
+    }
+
+    player_id_t
+    game::
+    get_next_turn(game_status_t const& game_stats) const
+    {
+        
+    }
+
+    void
+    game::
+    game_loop()
+    {
+        using turn_info = game_status_t;
+
+        _ui_events->game_start();
+        auto turn = init_game(_game_board);
+
+        auto flag = bool(true);
+        
+        do
+        {
+            //turn info
+            auto turn_info = make_turn_info(turn, _time_limit) ;
+            _ui_events->before_move(turn_info);
+
+            auto atomic_flag = std::atomic<bool>();
+            _ui_events->while_move(atomic_flag); 
+            auto move_data = play_turn(turn);
+            
+            _ui_events->after_move();
+            flag = process_move(move_data);
+
+        } while(flag);
+
+        _ui_events->game_over();
     }
 }

@@ -29,7 +29,7 @@
 #include <board_platformer/detail/game_board.hpp>
 #include <board_platformer/game_base.hpp>
 #include <board_platformer/ui_events.hpp>
-#include <board_platformer/game_status.hpp>
+#include <board_platformer/messages.hpp>
 
 #include <custom_settings.hpp>
 
@@ -55,25 +55,40 @@ namespace board_platformer
         std::unique_ptr<game_base> _game_settings;
         std::unique_ptr<game_base> _ui_events;
         ::game::game_board _game_board;
-        chrono::seconds _time_limit;
+        chrono::milliseconds _time_limit;
         size_t _turn_number;
+
+        game_status_t
+        make_game_status(player_id_t const& turn) const;
 
         void
         game_loop(); 
 
-        player_id_t init_game();
+        player_id_t
+        init_game(::game::game_board const& board) const;
 
-        void
-        add_players(std::vector<player_and_address>&& players);
+        game_status_t 
+        play_turn(player_id_t const& current_turn);
 
+        bool
+        process_move(game_status_t const& player_move_data) const;
+        
+        
         game_status_t
-        next_turn(player_id_t const& current_turn);
+        make_turn_info(player_id_t const& current_turn,
+                       chrono::milliseconds const& time_limit) const;
+
+        player_id_t
+        get_next_turn(game_status_t const& game_status) const;
 
     public:
         explicit game(size_t number_of_players,
-                      chrono::seconds const& time_count,
+                      chrono::milliseconds const& time_count,
                       std::unique_ptr<game_base>&& game_settings,
                       std::unique_ptr<>&& ui);
+
+        void
+        add_players(std::vector<player_and_address>&& players);
 
         void game_start();
     };
