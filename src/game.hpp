@@ -47,13 +47,14 @@ namespace board_platformer
 
     using player_moves = std::vector<bp::point_t>;
 
-    class game
+    template<class GamePolicy, class UIPolicy>
+    class game : public GamePolicy, public UIPolicy
     {
         using player_and_address = std::pair<ps::child, address_t>;
     private:
         std::vector<player> _players;
-        std::unique_ptr<game_base> _game_settings;
-        std::unique_ptr<game_base> _ui_events;
+        // std::unique_ptr<game_base> _game_settings;
+        // std::unique_ptr<game_base> _ui_events;
         ::game::game_board _game_board;
         chrono::milliseconds _time_limit;
         size_t _turn_number;
@@ -84,14 +85,12 @@ namespace board_platformer
     public:
         explicit game(size_t number_of_players,
                       chrono::milliseconds const& time_count,
-                      std::unique_ptr<game_base>&& game_settings,
-                      std::unique_ptr<>&& ui);
+                      std::vector<player_and_address>&& players)
 
-        void
-        add_players(std::vector<player_and_address>&& players);
-
-        void game_start();
+            void game_start();
     };
 }
+
+#include "game.tpp"
 
 #endif
