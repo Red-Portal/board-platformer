@@ -7,6 +7,12 @@
  cmake_minimum_required(VERSION 3.8)
  project(board_platformer)
 
+ # Build Options
+ option(BUILD_EXAMPLE_TIC_TAC_TOE
+     "build example tic-tac-toe" ON)
+
+
+ # Global Configurations
  set(CMAKE_CXX_STANDARD 17)
 
  set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
@@ -24,7 +30,7 @@
      ${SOURCE_DIR}/main.cpp
      ${SOURCE_DIR}/form.cpp
      ${SOURCE_DIR}/logger.cpp
-     ${SOURCE_DIR}/game.cpp
+     # ${SOURCE_DIR}/game.cpp
      ${SOURCE_DIR}/rpc_message.pb.cc
      ${SOURCE_DIR}/rpc_message.grpc.pb.cc
      ${SOURCE_DIR}/player.cpp)
@@ -174,16 +180,12 @@
      message(STATUS "skipping building nana.")
  endif()
 
- # set_target_properties(nana
- # 	   PROPERTIES LINK_INTERFACE_LIBRARIES
- # 	   stdc++fs)
-
  target_link_libraries(board_platformer
      PRIVATE
      ${NANA_LIB})
 
  # adding stdc++fs dependency again because nana required this linking order
- # do not delete this
+ # please do not delete this
  target_link_libraries(board_platformer
      PRIVATE
      stdc++fs)
@@ -194,6 +196,11 @@
  foreach(MAIN_INCLUDE_DIR ${MAIN_INCLUDE_DIRS})
      message(STATUS "${MAIN_INCLUDE_DIR}")
  endforeach()
+
+ # EXAMPLES
+ if(BUILD_EXAMPLE_TIC_TAC_TOE)
+     add_subdirectory(${PROJECT_SOURCE_DIR}/example/tic-tac-toe)
+ endif(BUILD_EXAMPLE_TIC_TAC_TOE)
 
  install(TARGETS board_platformer board_platformer_logger
      RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/bin/)
