@@ -39,27 +39,22 @@ namespace board_platformer
         ps::opstream _log_stream;
         ps::ipstream _logger_status_stream;
         ps::child _logger;
-        std::thread _log_sender;
-        std::queue<std::string> _log_queue;
         std::mutex _mtx;
-        std::condition_variable _consumer_wait_flag;
 
         static bool _console_out;
 
         std::string format_log(std::string const& sender,
                                std::string const& message) const;
 
-        void async_consume_log(std::queue<std::string>& _log_queue,
-                               std::condition_variable& _wait_log);
-
+    public:
         global_logger();
         
         // using this overload
         // means using file log stream
         global_logger(bool use_file_log);
 
-    public:
         static global_logger& get_singl(bool use_file_log = false);
+
         static void set_log_options(bool cout);
 
         void add_log(std::string const& sender,

@@ -16,7 +16,6 @@
 
 #include "logger.hpp"
 
-
 namespace board_platformer
 {
     global_logger::
@@ -24,10 +23,7 @@ namespace board_platformer
         :_log_stream(),
          _logger("board_platformer_logger", "10",
                  ps::std_in < _log_stream,
-                 ps::std_out > _logger_status_stream),
-         _log_sender(&global_logger::async_consume_log,
-                     _log_queue,
-                     _consumer_wait_flag)
+                 ps::std_out > _logger_status_stream)
     {
         (void)use_file_log;
 
@@ -44,8 +40,7 @@ namespace board_platformer
     global_logger::
     global_logger()
         :_log_stream(),
-         _logger(),
-         _log_sender()
+         _logger()
     {}
 
     global_logger&
@@ -82,32 +77,15 @@ namespace board_platformer
     }
 
     void
-    global_logger::
-    async_consume_log(std::queue<std::string>& _log_queue,
-                      std::condition_variable& _wait_log)
-    {
-        while(true)
-        {
-            auto lck = std::unique_lock<std::mutex>(_mtx);
-
-            while(_log_queue.empty())
-                _wait_log.wait(lck);
-
-            auto log = _log_queue.front();
-
-            if(_console_out)
-                _log_stream << log;
-        }
-    }
-
-    void
     global_logger::add_log(std::string const& sender,
                            std::string const& message)
     {
-        auto log_line = format_log(sender, message);
+        auto log = format_log(sender, message);
 
         auto lck = std::unique_lock<std::mutex>(_mtx);
-        std::cout << log_line << std::endl;
-        _log_queue.push(std::move(log_line));
+        std::cout << log << std::endl;
+
+        if(_console_out)
+            _log_stream << log;
     }
 }
