@@ -24,7 +24,7 @@
 namespace board_platformer
 {
     template<size_t tX, size_t tY>
-    class game_board_impl
+    class game_board_t
     {
     private:
         std::array<point_t, tX * tY> _board;
@@ -36,7 +36,7 @@ namespace board_platformer
         from_linear_idx(size_t lin) const noexcept;
 
     public:
-        inline game_board_impl();
+        inline game_board_t();
 
         inline typename std::array<point_t, tX * tY>::iterator
         begin() noexcept;
@@ -73,6 +73,6 @@ namespace board_platformer
     };
 }
 
-#include <board_platformer/detail/game_board.tpp>
+#include <board_platformer/game_board.tpp>
 
 #endif

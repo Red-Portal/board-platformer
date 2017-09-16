@@ -27,10 +27,10 @@
 
 #include <board_platformer/types.hpp>
 #include <board_platformer/detail/rpc.hpp>
-#include <board_platformer/detail/game_board.hpp>
 #include <board_platformer/detail/player.hpp>
 #include <board_platformer/detail/type_traits.hpp>
 #include <board_platformer/game_policy.hpp>
+#include <board_platformer/game_board.hpp>
 #include <board_platformer/ui_policy.hpp>
 #include <board_platformer/messages.hpp>
 
@@ -53,15 +53,16 @@ namespace board_platformer
 
     template<typename GamePolicy,
              typename UIPolicy,
-             typename GameBoard,
-
-             typename std::enable_if<
-                 std::is_base_of<game_policy_base, GamePolicy>::value &&
-                 std::is_base_of<ui_policy_base, UIPolicy>::value &&
-                 bp::is_gameboard<GameBoard>::value
-                 >::type>
+             typename GameBoard>
     class game_manager : public GamePolicy, public UIPolicy
     {
+        static_assert(std::is_base_of<game_policy_base, GamePolicy>::value,
+                      "provided game policy is not a subtype of class game_policy_base");
+        static_assert(std::is_base_of<ui_policy_base, UIPolicy>::value,
+                      "provided ui policy is not a subtype of class ui_policy_base");
+        static_assert(bp::is_gameboard<GameBoard>::value,
+                      "provided gameboard is not a template class instance of class game_board_t");
+        
         using player_and_address = std::pair<ps::child, address_t>;
     private:
         std::vector<player> _players;
@@ -92,15 +93,15 @@ namespace board_platformer
         player_id_t
         get_next_turn(game_status_t const& game_status) const;
 
-        public:
-            explicit game_manager(
-                size_t number_of_players,
-                chrono::milliseconds const& time_count,
-                std::vector<player_and_address>&& players);
+    public:
+        explicit game_manager(
+            size_t number_of_players,
+            chrono::milliseconds const& time_count,
+            std::vector<player_and_address>&& players);
 
-            void game_start();
-        };
-    }
+        void game_start();
+    };
+}
 
 #include <board_platformer/game_manager.tpp>
 
