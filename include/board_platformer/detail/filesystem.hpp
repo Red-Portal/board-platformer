@@ -14,22 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _UI_EVENT_HPP_
-#define _UI_EVENT_HPP_
+#ifndef _FILESYSTEM_HPP_
+#define _FILESYSTEM_HPP_
+
+#include <experimental/filesystem>
 
 namespace board_platformer
 {
-    class ui_event
-    {
-    public:
-        ui_event();
-
-        virtual game_over() = 0;
-        virtual after_move() = 0;
-        virtual while_move() = 0;
-        virtual before_move() = 0;
-        virtual game_start() = 0;
-    } 
+    namespace fs = std::experimental::filesystem;
 }
 
 #endif

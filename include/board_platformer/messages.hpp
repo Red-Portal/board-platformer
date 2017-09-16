@@ -7,7 +7,7 @@
 #include <chrono>
 
 #include <board_platformer/types.hpp>
-#include <custom_settings>
+#include <custom_settings.hpp>
 
 namespace board_platformer
 {

@@ -21,9 +21,8 @@
 #include <grpc++/security/credentials.h>
 #include <board_platformer/detail/rpc_message.pb.h>
 #include <board_platformer/detail/rpc.hpp>
-
-#include "player.hpp"
-#include "logger.hpp"
+#include <board_platformer/detail/player.hpp>
+#include <board_platformer/detail/logger.hpp>
 
 namespace board_platformer
 {

@@ -22,7 +22,7 @@
 #include <chrono> 
 
 #include <board_platformer/detail/game_board.hpp>
-#include <board_platformer/detail/game_base.hpp>
+#include <board_platformer/game_base.hpp>
 
 #include <../src/player.hpp> // should do something about this
 

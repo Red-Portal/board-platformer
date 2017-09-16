@@ -30,7 +30,6 @@
      ${SOURCE_DIR}/main.cpp
      ${SOURCE_DIR}/form.cpp
      ${SOURCE_DIR}/logger.cpp
-     # ${SOURCE_DIR}/game.cpp
      ${SOURCE_DIR}/rpc_message.pb.cc
      ${SOURCE_DIR}/rpc_message.grpc.pb.cc
      ${SOURCE_DIR}/player.cpp)
