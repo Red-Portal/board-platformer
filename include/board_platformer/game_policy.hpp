@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _GAME_BASE_HPP_
-#define _GAME_BASE_HPP_
+#ifndef _GAME_POLICY_HPP_
+#define _GAME_POLICY_HPP_
 
 #include <stdint.h>
 #include <optional>
@@ -32,7 +32,7 @@ namespace board_platformer
     namespace chrono = std::chrono;
     class player;
       
-    class game_base
+    class game_policy_base
     {
     public:
         virtual player_id_t 
