@@ -30,76 +30,49 @@ namespace board_platformer
         std::array<point_t, tX * tY> _board;
 
         inline size_t
-        to_linear_idx(size_t x, size_t y) const noexcept
-        { return tX * y + x; }
+        to_linear_idx(size_t x, size_t y) const noexcept;
 
         inline coordinate_t 
-        from_linear_idx(size_t lin) const noexcept
-        {
-            auto x = lin % tX;
-            auto y = lin / tX;
-            return {x, y};
-        }
+        from_linear_idx(size_t lin) const noexcept;
 
     public:
-        game_board_impl()
-            :_board()
-        {
-            for(auto i = 0u; i < tX * tY; ++i)
-            {
-                auto coord = from_linear_idx(i);
-                _board[i] = point_t(coord, point_state_t(0));
-            }
-        } 
+        inline game_board_impl();
 
-        typename std::array<point_t, tX * tY>::iterator
-        begin() noexcept
-        { return _board.begin(); }
+        inline typename std::array<point_t, tX * tY>::iterator
+        begin() noexcept;
 
-        typename std::array<point_t, tX * tY>::iterator
-        end() noexcept
-        { return _board.begin(); }
+        inline typename std::array<point_t, tX * tY>::iterator
+        end() noexcept;
 
-        typename std::array<point_t, tX * tY>::const_iterator
-        begin() const noexcept
-        { return _board.begin(); }
+        inline typename std::array<point_t, tX * tY>::const_iterator
+        begin() const noexcept;
 
-        typename std::array<point_t, tX * tY>::const_iterator
-        end() const noexcept
-        { return _board.begin(); }
+        inline typename std::array<point_t, tX * tY>::const_iterator
+        end() const noexcept;
 
-        typename std::array<point_t, tX * tY>::const_iterator
-        cbegin() noexcept
-        { return _board.cbegin(); }
+        inline typename std::array<point_t, tX * tY>::const_iterator
+        cbegin() const noexcept;
 
-        typename std::array<point_t, tX * tY>::const_iterator
-        cend() noexcept
-        { return _board.cbegin(); }
+        inline typename std::array<point_t, tX * tY>::const_iterator
+        cend() const noexcept;
 
         constexpr size_t
-        size() const noexcept
-        { return _board.size(); }
+        size() const noexcept;
 
         inline point_state_t
-        operator()(size_t x, size_t y) const
-        {
-            return _board[to_linear_idx(x, y)].state;
-        }
+        operator()(size_t x, size_t y) const;
 
         inline point_state_t&
-        operator()(size_t x, size_t y)
-        {
-            return _board[to_linear_idx(x, y)].state;
-        }
+        operator()(size_t x, size_t y);
 
         inline size_t
-        col_size() const
-        { return tX; }
+        col_size() const noexcept;
 
         inline size_t
-        row_size() const
-        { return tY; }
+        row_size() const noexcept;
     };
 }
+
+#include <board_platformer/detail/game_board.tpp>
 
 #endif
