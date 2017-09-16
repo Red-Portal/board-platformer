@@ -20,7 +20,7 @@
 
 #include <stdint.h>
 
-#include <board_plartformer/detail/strong_type.hpp>
+#include <board_platformer/detail/strong_type.hpp>
 
 namespace board_platformer
 {

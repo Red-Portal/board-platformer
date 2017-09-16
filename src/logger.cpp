@@ -18,6 +18,10 @@
 
 namespace board_platformer
 {
+    bool
+    global_logger::
+    _console_out = true;
+
     global_logger::
     global_logger(bool use_file_log)
         :_log_stream(),
@@ -73,7 +77,7 @@ namespace board_platformer
     global_logger::
     set_log_options(bool cout)
     {
-        _console_out = cout;
+        global_logger::_console_out = cout;
     }
 
     void

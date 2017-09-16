@@ -22,9 +22,9 @@
 #include <chrono> 
 
 #include <board_platformer/detail/game_board.hpp>
-#include <board_platformer/game_base.hpp>
+#include <board_platformer/game_policy.hpp>
 
-#include <../src/player.hpp> // should do something about this
+#include <board_platformer/detail/player.hpp> 
 
 namespace bp = board_platformer;
 namespace chrono = std::chrono;
@@ -48,7 +48,7 @@ namespace game
         get_next_turn_id(
             bp::game_status_t const& game_state) const override 
         {
-            auto previous_turn = game_state.previous_turn;
+            auto previous_turn = game_state.turn;
             if(previous_turn.value == 0)
                 return {1};
             else

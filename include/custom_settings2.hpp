@@ -21,7 +21,7 @@
 
 namespace game
 {
-    typedef game_board_impl<19, 19> game_board;
+    typedef board_platformer::game_board_impl<19, 19> game_board;
 
     size_t const player_of_player = 2;
 }

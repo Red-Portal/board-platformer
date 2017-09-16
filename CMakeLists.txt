@@ -11,11 +11,11 @@
  option(BUILD_EXAMPLE_TIC_TAC_TOE
      "build example tic-tac-toe" ON)
 
-
  # Global Configurations
  set(CMAKE_CXX_STANDARD 17)
 
  set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
+ set(INCLUDE_PATH ${PROJECT_SOURCE_DIR}/include)
 
  set(CMAKE_MODULE_PATH
      ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
@@ -27,7 +27,7 @@
  ### TARGET ###
  ## board_platformer main process
  set(MAIN_SOURCE_FILES
-     ${SOURCE_DIR}/main.cpp
+     # ${SOURCE_DIR}/main.cpp
      ${SOURCE_DIR}/form.cpp
      ${SOURCE_DIR}/logger.cpp
      ${SOURCE_DIR}/rpc_message.pb.cc
@@ -39,17 +39,18 @@
      message(STATUS "${MAIN_FILE}")
  endforeach()
 
- add_executable(board_platformer ${MAIN_SOURCE_FILES})
+ # add_executable(board_platformer ${MAIN_SOURCE_FILES})
+ add_library(board_platformer STATIC ${MAIN_SOURCE_FILES})
 
  set_target_properties(board_platformer
      PROPERTIES COMPILE_FLAGS "${BUILD_FLAGS}")
 
  target_include_directories(board_platformer
      PUBLIC
-     ${PROJECT_SOURCE_DIR}/include)
+     ${INCLUDE_PATH})
  
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      stdc++fs)
 
  ### TARGET ###
@@ -63,7 +64,7 @@
  add_executable(board_platformer_logger ${LOGGER_SOURCE_FILES})
 
  target_link_libraries(board_platformer_logger
-     PRIVATE
+     PUBLIC
      pthread
      stdc++fs)
 
@@ -74,11 +75,11 @@
  find_package(Protobuf REQUIRED)
 
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      ${PROTOBUF_LIBRARY})
 
  target_include_directories(board_platformer
-     PRIVATE
+     PUBLIC
      ${PROTOBUF_INCLUDE_DIR})
 
 
@@ -86,11 +87,11 @@
  find_package(GRPC REQUIRED)
 
  target_include_directories(board_platformer
-     PRIVATE
+     PUBLIC
      ${GRPC_INCLUDE_DIR})
 
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      ${GRPC_LIBRARY}
      ${GRPC_GRPC++_LIBRARY})
 
@@ -98,21 +99,21 @@
  find_package(Boost 1.64 COMPONENTS system filesystem REQUIRED)
 
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      ${Boost_SYSTEM_LIBRARY}
      ${Boost_FILESYSTEM_LIBRARY})
 
  target_link_libraries(board_platformer_logger
-     PRIVATE
+     PUBLIC
      ${Boost_SYSTEM_LIBRARY}
      ${Boost_FILESYSTEM_LIBRARY})
 
  target_include_directories(board_platformer
-     PRIVATE
+     PUBLIC
      ${BOOST_INCLUDE_DIRS})
 
  target_include_directories(board_platformer_logger
-     PRIVATE
+     PUBLIC
      ${BOOST_INCLUDE_DIRS})
 
 
@@ -121,19 +122,23 @@
  message("[ found X11 for Unix ]")
 
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      ${X11_LIBRARIES}
      ${X11_Xft_LIB})
 
  target_include_directories(board_platformer
-     PRIVATE
+     PUBLIC
      ${X11_INCLUDE_DIR})
 
  ## Thread library dependency
  find_package(Threads REQUIRED)
 
  target_link_libraries(board_platformer_logger
-     PRIVATE
+     PUBLIC
+     ${CMAKE_THREAD_LIBS_INIT})
+
+ target_link_libraries(board_platformer
+     PUBLIC
      ${CMAKE_THREAD_LIBS_INIT})
 
  ## FonConfig Custom findModule
@@ -141,11 +146,11 @@
  message("[ found FontConfig for Unix ]")
 
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      ${FONTCONFIG_LIBRARIES})
 
  target_include_directories(board_platformer
-     PRIVATE
+     PUBLIC
      ${FontConfig_INCLUDE_DIR})
 
  ## nana library
@@ -154,7 +159,7 @@
  find_library(NANA_LIB NAME nana PATHS "${NANA_ROOT_DIR}")
 
  target_include_directories(board_platformer
-     PRIVATE
+     PUBLIC
      ${NANA_ROOT_DIR}/include)
 
  # if nana is already built, just link. if not, build nana from scratch
@@ -180,13 +185,13 @@
  endif()
 
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      ${NANA_LIB})
 
  # adding stdc++fs dependency again because nana required this linking order
  # please do not delete this
  target_link_libraries(board_platformer
-     PRIVATE
+     PUBLIC
      stdc++fs)
 
  ## include directories status 
@@ -197,9 +202,9 @@
  endforeach()
 
  # EXAMPLES
- if(BUILD_EXAMPLE_TIC_TAC_TOE)
-     add_subdirectory(${PROJECT_SOURCE_DIR}/example/tic-tac-toe)
- endif(BUILD_EXAMPLE_TIC_TAC_TOE)
+ add_subdirectory(${PROJECT_SOURCE_DIR}/example)
 
  install(TARGETS board_platformer board_platformer_logger
-     RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/bin/)
+     RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/bin
+     ARCHIVE DESTINATION ${PROJECT_SOURCE_DIR}/lib
+     LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/lib)

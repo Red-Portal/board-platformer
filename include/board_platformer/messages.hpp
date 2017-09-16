@@ -19,32 +19,32 @@ namespace board_platformer
         using player_moves_data = std::tuple<player_moves,
                                              chrono::milliseconds>;
 
-        template<T>
+        template<typename T>
         using optional_ref = std::optional<std::reference_wrapper<T>>;
 
         inline game_status_t(player_moves const& _moves,
                              player_id_t _turn,
                              chrono::milliseconds const& _time,
                              ::game::game_board const& _board,
-                             size_t turn_number)
+                             size_t _turn_number)
             :game_board(_board),
-             moves(_moves),
+             moves(std::ref(_moves)),
              turn(_turn),
-             move_time(_time),
+             time(_time),
              turn_number(_turn_number) {}
 
         inline game_status_t(player_id_t _turn,
                              chrono::milliseconds const& _time,
                              ::game::game_board const& _board,
-                             size_t turn_number)
+                             size_t _turn_number)
             :game_board(_board),
              moves({}),
              turn(_turn),
-             move_time(_time),
+             time(_time),
              turn_number(_turn_number) {}
              
         ::game::game_board const& game_board;
-        optional_ref<player_moves> const& moves;
+        optional_ref<const player_moves> moves;
         player_id_t const& turn;
         chrono::milliseconds const& time;
         size_t turn_number;
