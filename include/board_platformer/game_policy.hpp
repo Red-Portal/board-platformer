@@ -22,8 +22,6 @@
 #include <vector>
 #include <chrono>
 
-#include <custom_settings2.hpp>
-
 #include <board_platformer/types.hpp>
 #include <board_platformer/messages.hpp>
 

@@ -26,7 +26,7 @@ namespace board_platformer
     game_manager(size_t number_of_players,
                  game_board_t&& game_board,
                  chrono::milliseconds const& time_count,
-                 std::vector<player_and_address>&& players)
+                 std::vector<player_process_data>&& players)
         :_players(),
          _game_board(std::move(game_board)),
          _time_limit(time_count),
@@ -36,12 +36,12 @@ namespace board_platformer
         _players.reserve(number_of_players);
 
         auto player_id = 0u;
-        for(auto& i : players)
-        {
-            _players.emplace_back(std::move(i.first),
-                                  std::move(i.second),
-                                  player_id++);
-        }
+        // for(auto& i : players)
+        // {
+        //     _players.emplace_back(std::move(i.first),
+        //                           std::move(i.second),
+        //                           player_id++);
+        // 
     }
 
     template<class GamePolicy, class UIPolicy>
@@ -64,7 +64,7 @@ namespace board_platformer
     template<class GamePolicy, class UIPolicy>
     player_id_t
     game_manager<GamePolicy, UIPolicy>::
-    init_game(::game::game_board const& board) const
+    init_game(game_board_t const& board) const
     {
         auto first_turn_id =
             GamePolicy::initialize_round(board, _players);

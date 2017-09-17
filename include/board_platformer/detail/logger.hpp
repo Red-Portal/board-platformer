@@ -20,7 +20,8 @@
 #include <boost/process/child.hpp>
 #include <boost/process/io.hpp>
 #include <boost/process/search_path.hpp>
-#include <board_platformer/detail/filesystem.hpp>
+
+#include <board_platformer/filesystem.hpp>
 
 #include <string>
 #include <mutex>

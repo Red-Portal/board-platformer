@@ -7,7 +7,6 @@
 #include <chrono>
 
 #include <board_platformer/types.hpp>
-#include <custom_settings.hpp>
 
 namespace board_platformer
 {
@@ -25,7 +24,7 @@ namespace board_platformer
         inline game_status_t(player_moves const& _moves,
                              player_id_t _turn,
                              chrono::milliseconds const& _time,
-                             ::game::game_board const& _board,
+                             game_board_t const& _board,
                              size_t _turn_number)
             :game_board(_board),
              moves(std::ref(_moves)),
@@ -35,7 +34,7 @@ namespace board_platformer
 
         inline game_status_t(player_id_t _turn,
                              chrono::milliseconds const& _time,
-                             ::game::game_board const& _board,
+                             game_board_t const& _board,
                              size_t _turn_number)
             :game_board(_board),
              moves({}),
@@ -43,7 +42,7 @@ namespace board_platformer
              time(_time),
              turn_number(_turn_number) {}
              
-        ::game::game_board const& game_board;
+        game_board_t const& game_board;
         optional_ref<const player_moves> moves;
         player_id_t const& turn;
         chrono::milliseconds const& time;

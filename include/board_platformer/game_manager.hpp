@@ -25,20 +25,15 @@
 #include <vector>
 #include <functional>
 
-#include <board_platformer/types.hpp>
 #include <board_platformer/detail/rpc.hpp>
 #include <board_platformer/detail/player.hpp>
 #include <board_platformer/detail/type_traits.hpp>
+#include <board_platformer/filesystem.hpp>
+#include <board_platformer/types.hpp>
 #include <board_platformer/game_policy.hpp>
 #include <board_platformer/game_board.hpp>
 #include <board_platformer/ui_policy.hpp>
 #include <board_platformer/messages.hpp>
-
-#include <custom_settings.hpp>
-
-
-namespace boost::process { class child; }
-
 
 namespace board_platformer
 {
@@ -50,6 +45,7 @@ namespace board_platformer
     using ref = std::reference_wrapper<T>;
 
     using player_moves = std::vector<bp::point_t>;
+    using player_process_data = std::pair<fs::path, address_t>;
 
     template<typename GamePolicy,
              typename UIPolicy>
@@ -61,8 +57,6 @@ namespace board_platformer
         static_assert(
             std::is_base_of<ui_policy_base, UIPolicy>::value,
             "provided ui policy is not a subtype of class ui_policy_base");
-
-        using player_and_address = std::pair<ps::child, address_t>;
 
     private:
         std::vector<player> _players;
@@ -98,7 +92,7 @@ namespace board_platformer
             size_t const number_of_players,
             game_board_t&& game_board,
             chrono::milliseconds const& time_count,
-            std::vector<player_and_address>&& players);
+            std::vector<player_process_data>&& players);
 
         void game_start();
     };
