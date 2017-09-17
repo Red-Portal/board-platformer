@@ -25,9 +25,9 @@
 #include <boost/process/child.hpp>
 #include <grpc/grpc.h>
 
-#include <custom_settings.hpp>
-#include <board_platformer/types.hpp>
 #include <board_platformer/detail/rpc_message.grpc.pb.h>
+#include <board_platformer/types.hpp>
+#include <board_platformer/game_board.hpp>
 
 class board_platformer_comm;
 class player_move;

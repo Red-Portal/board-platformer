@@ -19,6 +19,7 @@
 #include <grpc++/create_channel.h>
 #include <grpc++/client_context.h>
 #include <grpc++/security/credentials.h>
+
 #include <board_platformer/detail/rpc_message.pb.h>
 #include <board_platformer/detail/rpc.hpp>
 #include <board_platformer/detail/player.hpp>
