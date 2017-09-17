@@ -61,7 +61,7 @@ namespace board_platformer
         inline std::vector<point_t>::const_iterator
         cend() const noexcept;
 
-        constexpr size_t
+        size_t
         size() const noexcept;
 
         inline point_state_t

@@ -57,9 +57,9 @@ namespace board_platformer
     cend() const   noexcept 
     { return _board.cbegin(); }
 
-    constexpr size_t
+    size_t
     game_board_t::
-    size() const  noexcept 
+    size() const noexcept 
     { return _board.size(); }
 
     point_state_t
