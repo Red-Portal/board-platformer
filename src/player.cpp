@@ -52,7 +52,7 @@ namespace board_platformer
 
     proto_board_state
     player::
-    serialize_board(game::game_board const& actual_board,
+    serialize_board(game_board_t const& actual_board,
                     proto_board_state&& proto_board) const
     {
         size_t index = 0;
@@ -97,7 +97,7 @@ namespace board_platformer
 
     std::tuple<std::vector<point_t>, duration_t>
     player::
-    play_turn(game::game_board const& board,
+    play_turn(game_board_t const& board,
               duration_t const& time_limit)
     {
         auto proto_board_blank = proto_board_state();
