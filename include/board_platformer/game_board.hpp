@@ -17,17 +17,18 @@
 #ifndef _GAME_BOARD_HPP_
 #define _GAME_BOARD_HPP_
 
-#include <array>
+#include <vector>
 
 #include <board_platformer/types.hpp>
 
 namespace board_platformer
 {
-    template<size_t tX, size_t tY>
     class game_board_t
     {
     private:
-        std::array<point_t, tX * tY> _board;
+        std::vector<point_t> _board;
+        size_t const _x_dim;
+        size_t const _y_dim;
 
         inline size_t
         to_linear_idx(size_t x, size_t y) const noexcept;
@@ -36,24 +37,28 @@ namespace board_platformer
         from_linear_idx(size_t lin) const noexcept;
 
     public:
-        inline game_board_t();
+        inline explicit
+        game_board_t(size_t const x_dim, size_t const y_dim);
 
-        inline typename std::array<point_t, tX * tY>::iterator
+        inline game_board_t(game_board_t const& other);
+        inline game_board_t(game_board_t&& other) noexcept;
+
+        inline std::vector<point_t>::iterator
         begin() noexcept;
 
-        inline typename std::array<point_t, tX * tY>::iterator
+        inline std::vector<point_t>::iterator
         end() noexcept;
 
-        inline typename std::array<point_t, tX * tY>::const_iterator
+        inline std::vector<point_t>::const_iterator
         begin() const noexcept;
 
-        inline typename std::array<point_t, tX * tY>::const_iterator
+        inline std::vector<point_t>::const_iterator
         end() const noexcept;
 
-        inline typename std::array<point_t, tX * tY>::const_iterator
+        inline std::vector<point_t>::const_iterator
         cbegin() const noexcept;
 
-        inline typename std::array<point_t, tX * tY>::const_iterator
+        inline std::vector<point_t>::const_iterator
         cend() const noexcept;
 
         constexpr size_t

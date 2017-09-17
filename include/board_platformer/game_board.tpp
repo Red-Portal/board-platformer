@@ -1,96 +1,89 @@
 namespace board_platformer
 {
-    template<size_t tX, size_t tY>
-    size_t
-    game_board_t<tX, tY>::
-    to_linear_idx(size_t x, size_t y) const noexcept
-    { return tX * y + x; }
+    game_board_t::
+    game_board_t(size_t const x_dim, size_t const y_dim)
+        : _x_dim(x_dim), _y_dim(y_dim), _board()
+    {
+        _board.reserve(_x_dim * _y_dim);
 
-    template<size_t tX, size_t tY>
+        for(auto i = 0u; i < _x_dim * _y_dim; ++i)
+        {
+            auto coord = from_linear_idx(i);
+            _board.emplace_back(coord, point_state_t(0));
+        }
+    }
+
+    size_t
+    game_board_t::
+    to_linear_idx(size_t x, size_t y) const noexcept
+    { return _x_dim * y + x; }
     coordinate_t 
-    game_board_t<tX, tY>::
+    game_board_t::
     from_linear_idx(size_t lin) const noexcept
     {
-        auto x = lin % tX;
-        auto y = lin / tX;
+        auto x = lin % _x_dim;
+        auto y = lin / _x_dim;
         return {x, y};
     }
 
-    template<size_t tX, size_t tY>
-    game_board_t<tX, tY>::
+    game_board_t::
     game_board_t()
         :_board()
     {
-        for(auto i = 0u; i < tX * tY; ++i)
-        {
-            auto coord = from_linear_idx(i);
-            _board[i] = point_t(coord, point_state_t(0));
-        }
-    } 
+    }
 
-    template<size_t tX, size_t tY>
-    typename std::array<point_t, tX * tY>::iterator
-    game_board_t<tX, tY>::
+    std::vector<point_t>::iterator
+    game_board_t::
     begin() noexcept
     { return _board.begin(); }
 
-    template<size_t tX, size_t tY>
-    typename std::array<point_t, tX * tY>::iterator
-    game_board_t<tX, tY>::
+    std::vector<point_t>::iterator
+    game_board_t::
     end() noexcept
     { return _board.end(); }
 
-    template<size_t tX, size_t tY>
-    typename std::array<point_t, tX * tY>::const_iterator
-    game_board_t<tX, tY>::
+    std::vector<point_t>::const_iterator
+    game_board_t::
     begin() const noexcept 
     { return _board.begin(); }
 
-    template<size_t tX, size_t tY>
-    typename std::array<point_t, tX * tY>::const_iterator
-    game_board_t<tX, tY>::
+    std::vector<point_t>::const_iterator
+    game_board_t::
     end() const  noexcept 
     { return _board.begin(); }
 
-    template<size_t tX, size_t tY>
-    typename std::array<point_t, tX * tY>::const_iterator
-    game_board_t<tX, tY>::
+    std::vector<point_t>::const_iterator
+    game_board_t::
     cbegin() const  noexcept 
     { return _board.cbegin(); }
 
-    template<size_t tX, size_t tY>
-    typename std::array<point_t, tX * tY>::const_iterator
-    game_board_t<tX, tY>::
+    std::vector<point_t>::const_iterator
+    game_board_t::
     cend() const   noexcept 
     { return _board.cbegin(); }
 
-    template<size_t tX, size_t tY>
     constexpr size_t
-    game_board_t<tX, tY>::
+    game_board_t::
     size() const  noexcept 
     { return _board.size(); }
 
-    template<size_t tX, size_t tY>
     point_state_t
-    game_board_t<tX, tY>::
+    game_board_t::
     operator()(size_t x, size_t y) const
     { return _board[to_linear_idx(x, y)].state; }
 
-    template<size_t tX, size_t tY>
     point_state_t&
-    game_board_t<tX, tY>::
+    game_board_t::
     operator()(size_t x, size_t y)
     { return _board[to_linear_idx(x, y)].state; }
 
-    template<size_t tX, size_t tY>
     size_t
-    game_board_t<tX, tY>::
+    game_board_t::
     col_size() const noexcept
-    { return tX; }
+    { return _x_dim; }
 
-    template<size_t tX, size_t tY>
     size_t
-    game_board_t<tX, tY>::
+    game_board_t::
     row_size() const noexcept
-    { return tY; }
+    { return _y_dim; }
 }
