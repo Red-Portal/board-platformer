@@ -21,13 +21,14 @@
 
 namespace board_platformer
 {
-    template<class GamePolicy, class UIPolicy, class GameBoard>
-    game_manager<GamePolicy, UIPolicy, GameBoard>::
+    template<class GamePolicy, class UIPolicy>
+    game_manager<GamePolicy, UIPolicy>::
     game_manager(size_t number_of_players,
+                 game_board_t&& game_board,
                  chrono::milliseconds const& time_count,
                  std::vector<player_and_address>&& players)
         :_players(),
-         _game_board(),
+         _game_board(std::move(game_board)),
          _time_limit(time_count),
          _turn_number(0)
          

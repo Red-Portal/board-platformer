@@ -52,21 +52,21 @@ namespace board_platformer
     using player_moves = std::vector<bp::point_t>;
 
     template<typename GamePolicy,
-             typename UIPolicy,
-             typename GameBoard>
+             typename UIPolicy>
     class game_manager : public GamePolicy, public UIPolicy
     {
-        static_assert(std::is_base_of<game_policy_base, GamePolicy>::value,
-                      "provided game policy is not a subtype of class game_policy_base");
-        static_assert(std::is_base_of<ui_policy_base, UIPolicy>::value,
-                      "provided ui policy is not a subtype of class ui_policy_base");
-        static_assert(bp::is_gameboard<GameBoard>::value,
-                      "provided gameboard is not a template class instance of class game_board_t");
-        
+        static_assert(
+            std::is_base_of<game_policy_base, GamePolicy>::value,
+            "provided game policy is not a subtype of class game_policy_base");
+        static_assert(
+            std::is_base_of<ui_policy_base, UIPolicy>::value,
+            "provided ui policy is not a subtype of class ui_policy_base");
+
         using player_and_address = std::pair<ps::child, address_t>;
+
     private:
         std::vector<player> _players;
-        GameBoard _game_board;
+        game_board_t _game_board;
         chrono::milliseconds _time_limit;
         size_t _turn_number;
 
@@ -77,7 +77,7 @@ namespace board_platformer
         game_loop(); 
 
         player_id_t
-        init_game(::game::game_board const& board) const;
+        init_game(game_board_t const& board) const;
 
         game_status_t 
         play_turn(player_id_t const& current_turn);
@@ -95,7 +95,8 @@ namespace board_platformer
 
     public:
         explicit game_manager(
-            size_t number_of_players,
+            size_t const number_of_players,
+            game_board_t&& game_board,
             chrono::milliseconds const& time_count,
             std::vector<player_and_address>&& players);
 
