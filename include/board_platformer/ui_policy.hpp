@@ -23,9 +23,13 @@ namespace board_platformer
     {
     public:
         virtual void game_over() = 0;
+
         virtual void after_move() = 0;
+
         virtual void while_move() = 0;
+
         virtual void before_move() = 0;
+
         virtual void game_start() = 0;
     };
 }

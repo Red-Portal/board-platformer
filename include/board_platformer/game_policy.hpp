@@ -36,8 +36,7 @@ namespace board_platformer
     {
     public:
         virtual player_id_t 
-        initialize_round(game::game_board& board,
-                         std::vector<player> const& players) = 0;
+        initialize_round(game_board_t& board) = 0;
 
         virtual player_id_t
         get_next_turn_id(game_status_t const& game_state) const = 0;
