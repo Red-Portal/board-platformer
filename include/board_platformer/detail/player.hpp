@@ -61,7 +61,7 @@ namespace board_platformer
         deserialize_moves(proto_player_move const& moves) const;
 
         proto_board_state
-        serialize_board(game::game_board const& actual_board,
+        serialize_board(game_board_t const& actual_board,
                         proto_board_state&& proto_board) const;
 
     public:
@@ -70,7 +70,7 @@ namespace board_platformer
                         player_id_t const& player_id);
 
         std::tuple<std::vector<point_t>, duration_t>
-        play_turn(game::game_board const& board,
+        play_turn(game_board_t const& board,
                   duration_t const& time_limit);
 
         player_id_t const& get_playerid() const noexcept;
