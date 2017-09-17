@@ -78,6 +78,6 @@ namespace board_platformer
     };
 }
 
-#include <board_platformer/game_board.tpp>
+#include <board_platformer/game_board.ipp>
 
 #endif

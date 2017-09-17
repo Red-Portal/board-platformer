@@ -2,7 +2,7 @@ namespace board_platformer
 {
     game_board_t::
     game_board_t(size_t const x_dim, size_t const y_dim)
-        : _x_dim(x_dim), _y_dim(y_dim), _board()
+        : _board(), _x_dim(x_dim), _y_dim(y_dim)
     {
         _board.reserve(_x_dim * _y_dim);
 
@@ -17,6 +17,7 @@ namespace board_platformer
     game_board_t::
     to_linear_idx(size_t x, size_t y) const noexcept
     { return _x_dim * y + x; }
+
     coordinate_t 
     game_board_t::
     from_linear_idx(size_t lin) const noexcept
@@ -24,12 +25,6 @@ namespace board_platformer
         auto x = lin % _x_dim;
         auto y = lin / _x_dim;
         return {x, y};
-    }
-
-    game_board_t::
-    game_board_t()
-        :_board()
-    {
     }
 
     std::vector<point_t>::iterator
