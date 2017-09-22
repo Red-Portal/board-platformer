@@ -19,13 +19,14 @@
 #define _TYPES_HPP_
 
 #include <stdint.h>
+#include <string>
 
 #include <board_platformer/detail/strong_type.hpp>
 
 namespace board_platformer
 {
     STRONG_TYPE(uint16_t, unit_type) point_state_t;
-    STRONG_TYPE(uint32_t, player_id_type) player_id_t;
+    STRONG_TYPE(std::string, player_id_type) player_id_t;
     STRONG_TYPE(int64_t, player_score_type) player_score_t;
     STRONG_TYPE(uint16_t, process_id) process_id_t;
     STRONG_TYPE(std::string, ip_adress_type) ip_address_t;
