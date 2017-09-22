@@ -29,7 +29,7 @@ namespace board_platformer
 {
     player::
     player(ps::child&& player_process,
-           address_t const& address,
+           ip_address_t const& address,
            player_id_t const& player_id)
         : _player_process(std::move(player_process)),
           _player_id(player_id),

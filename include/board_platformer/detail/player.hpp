@@ -23,6 +23,7 @@
 #include <stdint.h>
 
 #include <boost/process/child.hpp>
+
 #include <grpc/grpc.h>
 
 #include <board_platformer/detail/rpc_message.grpc.pb.h>
@@ -51,7 +52,6 @@ namespace board_platformer
     private:
         ps::child const _player_process;
         player_id_t const _player_id;
-
         std::unique_ptr<comm::Stub> _stub;
 
         proto_player_move
@@ -66,7 +66,7 @@ namespace board_platformer
 
     public:
         explicit player(ps::child&& player_process,
-                        address_t const& adress,
+                        ip_address_t const& adress,
                         player_id_t const& player_id);
 
         std::tuple<std::vector<point_t>, duration_t>
