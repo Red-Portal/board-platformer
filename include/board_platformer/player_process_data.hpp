@@ -18,6 +18,7 @@
 #define _BOARD_PLATFORMER_PLAYER_PROCESS_DATA_HPP_
 
 #include <type_traits>
+#include <string>
 #include <optional>
 
 #include <board_platformer/filesystem.hpp>
@@ -27,29 +28,57 @@ namespace board_platformer
 {
     struct player_process_data
     {
+        
+        template<typename Path,
+                 typename String,
+                 typename IpAddress,
+                 typename NetworkPort,
+                 typename = std::enable_if<
+                     std::is_same<
+                         fs::path,
+                         std::remove_reference<Path>>::value &&
+                     std::is_same<
+                         std::string,
+                         std::remove_reference<String>>::value &&
+                     std::is_same<
+                         ip_address_t,
+                         std::remove_reference<IpAddress>>::value &&
+                     std::is_same<
+                         network_port_t,
+                         std::remove_reference<NetworkPort>>::value
+                     >::type>
         inline
-        player_process_data(fs::path const& _process_path,
-                            ip_address_t const& _ip,
-                            network_port_t const& _port);
+        player_process_data(Path const& _process_path,
+                            String _player_id,
+                            IpAddress const& _ip,
+                            NetworkPort const& _port);
 
+        template<typename String,
+                 typename IpAddress,
+                 typename NetworkPort,
+                 typename = std::enable_if<
+                     std::is_same<
+                         std::string,
+                         std::remove_reference<String>>::value &&
+                     std::is_same<
+                         ip_address_t,
+                         std::remove_reference<IpAddress>>::value &&
+                     std::is_same<
+                         network_port_t,
+                         std::remove_reference<NetworkPort>>::value
+                     >::type>
         inline
-        player_process_data(ip_address_t const& _ip,
-                            network_port_t const& _port);
-
-        inline
-        player_process_data(fs::path&& _process_path,
-                            ip_address_t&& _ip,
-                            network_port_t&& _port);
-        inline 
-        player_process_data(ip_address_t&& _ip,
-                            network_port_t&& _port);
+        player_process_data(String _player_id,
+                            IpAddress const& _ip,
+                            NetworkPort const& _port);
 
         std::optional<fs::path> process_path;
+        std::string player_id;
         ip_address_t ip;
         network_port_t port;
     };
 }
 
-#include <board_platformer/player_process_data.ipp>
+#include <board_platformer/player_process_data.tpp>
 
 #endif
