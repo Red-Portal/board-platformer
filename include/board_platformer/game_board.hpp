@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _GAME_BOARD_HPP_
-#define _GAME_BOARD_HPP_
+#ifndef _BOARD_PLATFORMER_GAME_BOARD_HPP_
+#define _BOARD_PLATFORMER_GAME_BOARD_HPP_
 
 #include <vector>
 
