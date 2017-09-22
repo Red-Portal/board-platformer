@@ -18,19 +18,20 @@
 #define _GAME_MANAGER_HPP_
 
 #include <vector>
-#include <variant>
+#include <optional>
 #include <memory>
 #include <type_traits>
 #include <chrono>
 #include <vector>
 #include <functional>
 
-#include <board_platformer/detail/rpc.hpp>
+#include <boost/process/child.hpp>
+
 #include <board_platformer/detail/player.hpp>
-#include <board_platformer/detail/type_traits.hpp>
 #include <board_platformer/filesystem.hpp>
 #include <board_platformer/types.hpp>
 #include <board_platformer/game_policy.hpp>
+#include <board_platformer/player_process_data.hpp>
 #include <board_platformer/game_board.hpp>
 #include <board_platformer/ui_policy.hpp>
 #include <board_platformer/messages.hpp>
@@ -39,13 +40,12 @@ namespace board_platformer
 {
     namespace bp = board_platformer;
     namespace chrono = std::chrono;
-    namespace ps = boost::process;
+    namespace pc = boost::process;
 
     template<typename T>
     using ref = std::reference_wrapper<T>;
 
     using player_moves = std::vector<bp::point_t>;
-    using player_process_data = std::pair<fs::path, address_t>;
 
     template<typename GamePolicy,
              typename UIPolicy>
@@ -58,14 +58,15 @@ namespace board_platformer
             std::is_base_of<ui_policy_base, UIPolicy>::value,
             "provided ui policy is not a subtype of class ui_policy_base");
 
+
     private:
         std::vector<player> _players;
         game_board_t _game_board;
         chrono::milliseconds _time_limit;
         size_t _turn_number;
 
-        game_status_t
-        make_game_status(player_id_t const& turn) const;
+        // game_status_t
+        // make_game_status(player_id_t const& turn) const;
 
         void
         game_loop(); 
@@ -73,26 +74,31 @@ namespace board_platformer
         player_id_t
         init_game(game_board_t const& board) const;
 
-        game_status_t 
-        play_turn(player_id_t const& current_turn);
+        // game_status_t 
+        // play_turn(player_id_t const& current_turn);
 
-        bool
-        process_move(game_status_t const& player_move_data) const;
+        // bool
+        // process_move(game_status_t const& player_move_data) const;
         
         
-        game_status_t
-        make_turn_info(player_id_t const& current_turn,
-                       chrono::milliseconds const& time_limit) const;
+        // game_status_t
+        // make_turn_info(player_id_t const& current_turn,
+        //                chrono::milliseconds const& time_limit) const;
 
-        player_id_t
-        get_next_turn(game_status_t const& game_status) const;
+        // player_id_t
+        // get_next_turn(game_status_t const& game_status) const;
+
+
+        pc::child
+        maybe_run_process(player_process_data const& player) const;
 
     public:
         explicit game_manager(
             size_t const number_of_players,
             game_board_t&& game_board,
-            chrono::milliseconds const& time_count,
-            std::vector<player_process_data>&& players);
+            chrono::milliseconds const& time_count);
+
+        void add_players(std::vector<player_process_data>&& players);
 
         void game_start();
     };

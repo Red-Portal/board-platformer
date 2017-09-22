@@ -16,8 +16,12 @@
 
 #include <algorithm>
 #include <atomic>
+#include <utility>
+
+#include <boost/process/system.hpp>
 
 #include <board_platformer/game_manager.hpp>
+#include <board_platformer/exceptions.hpp>
 
 namespace board_platformer
 {
@@ -25,8 +29,7 @@ namespace board_platformer
     game_manager<GamePolicy, UIPolicy>::
     game_manager(size_t number_of_players,
                  game_board_t&& game_board,
-                 chrono::milliseconds const& time_count,
-                 std::vector<player_process_data>&& players)
+                 chrono::milliseconds const& time_count)
         :_players(),
          _game_board(std::move(game_board)),
          _time_limit(time_count),
@@ -34,14 +37,6 @@ namespace board_platformer
          
     {
         _players.reserve(number_of_players);
-
-        auto player_id = 0u;
-        // for(auto& i : players)
-        // {
-        //     _players.emplace_back(std::move(i.first),
-        //                           std::move(i.second),
-        //                           player_id++);
-        // 
     }
 
     template<class GamePolicy, class UIPolicy>
@@ -53,13 +48,13 @@ namespace board_platformer
     }
 
     
-    template<class GamePolicy, class UIPolicy>
-    game_status_t
-    game_manager<GamePolicy, UIPolicy>::
-    make_game_status(player_id_t const& turn) const
-    {
-        // return game_status_t(_game_board);
-    }
+    // template<class GamePolicy, class UIPolicy>
+    // game_status_t
+    // game_manager<GamePolicy, UIPolicy>::
+    // make_game_status(player_id_t const& turn) const
+    // {
+    //     // return game_status_t(_game_board);
+    // }
 
     template<class GamePolicy, class UIPolicy>
     player_id_t
@@ -72,43 +67,83 @@ namespace board_platformer
         return {first_turn_id};
     }
 
+    // template<class GamePolicy, class UIPolicy>
+    // game_status_t
+    // game_manager<GamePolicy, UIPolicy>::
+    // play_turn(player_id_t const& current_turn)
+    // {
+    //     ++_turn_number;
+    //     auto& current_player = *std::find_if(
+    //         _players.begin(),
+    //         _players.end(),
+    //         [&current_turn](player const& elem){
+    //             return elem.get_playerid() == current_turn;
+    //         });
+
+    //     auto [moves, move_time] =
+    //         current_player.play_turn(_game_board, _time_limit);
+
+    //     auto game_status =
+    //         game_status_t(moves, current_turn,
+    //                       move_time, _turn_number);
+
+    //     return game_status;
+    // }
+
+    // template<class GamePolicy, class UIPolicy>
+    // bool
+    // game_manager<GamePolicy, UIPolicy>::
+    // process_move(game_status_t const& player_move_data) const
+    // {
+        
+    // }
+
+    // template<class GamePolicy, class UIPolicy>
+    // player_id_t
+    // game_manager<GamePolicy, UIPolicy>::
+    // get_next_turn(game_status_t const& game_stats) const
+    // {
+        
+    // }
+
     template<class GamePolicy, class UIPolicy>
-    game_status_t
+    std::optional<pc::child>
     game_manager<GamePolicy, UIPolicy>::
-    play_turn(player_id_t const& current_turn)
+    maybe_run_process(player_process_data const& player) const 
     {
-        ++_turn_number;
-        auto& current_player = *std::find_if(
-            _players.begin(),
-            _players.end(),
-            [&current_turn](player const& elem){
-                return elem.get_playerid() == current_turn;
-            });
+        auto process = pc::child(pc::system(path.value()));
 
-        auto [moves, move_time] =
-            current_player.play_turn(_game_board, _time_limit);
-
-        auto game_status =
-            game_status_t(moves, current_turn,
-                          move_time, _turn_number);
-
-        return game_status;
+        if(process.running())
+            return process;
+        else
+            return {};
     }
 
     template<class GamePolicy, class UIPolicy>
-    bool
+    void
     game_manager<GamePolicy, UIPolicy>::
-    process_move(game_status_t const& player_move_data) const
+    add_players(std::vector<player_process_data>&& players)
     {
-        
-    }
+        for(auto& player_data : players)
+        {
+            if(player_data.process_path.has_value())
+            {
+                auto maybe_process = maybe_run_process(player_data);
 
-    template<class GamePolicy, class UIPolicy>
-    player_id_t
-    game_manager<GamePolicy, UIPolicy>::
-    get_next_turn(game_status_t const& game_stats) const
-    {
-        
+                if(!maybe_process)
+                    throw player_process_not_running;
+                else
+                    _players.emplace_back(
+                        std::move(maybe_process.value()),
+                        player_data.ip,
+                        player_id_t(player_data.player_id),
+                        player_data.port);
+            } 
+            else
+            {
+                
+            }
+        }
     }
 
     template<class GamePolicy, class UIPolicy>
@@ -132,7 +167,7 @@ namespace board_platformer
             auto atomic_flag = std::atomic<bool>();
             UIPolicy::while_move(atomic_flag); 
             auto move_data = play_turn(turn);
-            
+                       
             UIPolicy::after_move();
             flag = process_move(move_data);
 
