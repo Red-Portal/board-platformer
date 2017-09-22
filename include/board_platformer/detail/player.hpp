@@ -52,6 +52,8 @@ namespace board_platformer
     private:
         ps::child const _player_process;
         player_id_t const _player_id;
+        ip_address_t const _ip_adress;
+        network_port_t const _net_port;
         std::unique_ptr<comm::Stub> _stub;
 
         proto_player_move
@@ -67,7 +69,8 @@ namespace board_platformer
     public:
         explicit player(ps::child&& player_process,
                         ip_address_t const& adress,
-                        player_id_t const& player_id);
+                        player_id_t const& player_id,
+                        network_port_t const& net_port);
 
         std::tuple<std::vector<point_t>, duration_t>
         play_turn(game_board_t const& board,

@@ -21,7 +21,6 @@
 #include <grpc++/security/credentials.h>
 
 #include <board_platformer/detail/rpc_message.pb.h>
-#include <board_platformer/detail/rpc.hpp>
 #include <board_platformer/detail/player.hpp>
 #include <board_platformer/detail/logger.hpp>
 
@@ -30,14 +29,15 @@ namespace board_platformer
     player::
     player(ps::child&& player_process,
            ip_address_t const& address,
-           player_id_t const& player_id)
+           player_id_t const& player_id,
+           network_port_t const& net_port)
         : _player_process(std::move(player_process)),
           _player_id(player_id),
-          _stub(
-              comm::NewStub(
-                  grpc::CreateChannel(
-                      address.value,
-                      grpc::InsecureChannelCredentials())))
+          _net_port(net_port),
+          _stub(comm::NewStub(
+                    grpc::CreateChannel(
+                        address.value,
+                        grpc::InsecureChannelCredentials())))
     {}
 
     proto_player_move
@@ -110,7 +110,7 @@ namespace board_platformer
         proto_board.set_time_limit(time_limit_s.count());
 
         global_logger::get_singl()
-            .add_log("player " + std::to_string(_player_id.value),
+            .add_log("player " + _player_id.value,
                      "waiting for player move..");
 
         auto start = clock::now();
@@ -118,7 +118,7 @@ namespace board_platformer
         auto end = clock::now();
 
         global_logger::get_singl()
-            .add_log("player " + std::to_string(_player_id.value),
+            .add_log("player " + _player_id.value,
                      "received player move");
 
         auto moves = deserialize_moves(std::move(player_move));
